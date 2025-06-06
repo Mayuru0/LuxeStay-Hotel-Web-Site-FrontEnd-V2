@@ -1,19 +1,22 @@
-import Header from "./components/Header"
-
-
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Home from './pages/client page/home'
+import Aboute from './pages/client page/about'
+import NotFound from './components/NotFound';
 function App() {
- 
-
   return (
-    <>
+    <BrowserRouter>
+     <Routes>
+
+     <Route path="/" element={<Home />} />
+     <Route path="/about" element={<Aboute />} />
+
+
+     <Route path="/*" element={<NotFound />} />
+
+     </Routes>
     
-     <div className=" -mt-24 w-full h-screen bg-gray-900">
-
-
-    </div>
-
-    </>
-  )
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
