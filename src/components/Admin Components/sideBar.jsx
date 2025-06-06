@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Alogo1 from './../../assets/Alogo1.png';
 import { 
   FaTachometerAlt, FaBook, FaList, 
@@ -7,6 +7,8 @@ import {
 } from 'react-icons/fa';
 
 const SideBar = () => {
+  const location = useLocation();
+
   const links = [
     { name: 'Dashboard', path: '/admin/dashboard', icon: <FaTachometerAlt /> },
     { name: 'Booking', path: '/admin/booking', icon: <FaBook /> },
@@ -27,16 +29,21 @@ const SideBar = () => {
         />
       </Link>
 
-      {links.map((link, index) => (
-        <Link
-          key={index}
-          to={link.path}
-          className="flex items-center gap-3 text-white text-lg font-semibold px-4 py-2 rounded transition-transform duration-200 ease-in-out hover:bg-gray-600 hover:text-black hover:scale-105"
-        >
-          <span className="text-xl">{link.icon}</span>
-          {link.name}
-        </Link>
-      ))}
+      {links.map((link, index) => {
+        const isActive = location.pathname === link.path;
+
+        return (
+          <Link
+            key={index}
+            to={link.path}
+            className={`flex items-center gap-3 text-lg font-semibold px-4 py-2 rounded transition-all duration-200 ease-in-out 
+              ${isActive ? 'bg-white text-black scale-105' : 'text-white hover:bg-gray-600 hover:text-black hover:scale-105'}`}
+          >
+            <span className="text-xl">{link.icon}</span>
+            {link.name}
+          </Link>
+        );
+      })}
     </div>
   );
 };

@@ -2,13 +2,13 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/client page/home'
 import Aboute from './pages/client page/about'
 import NotFound from './components/Client Components/NotFound';
-import Dashboard from './pages/admin page/dashboard'
+import Dashboard from './components/Admin Components/LayOut'
 function App() {
   return (
     <BrowserRouter>
      <Routes>
     {/* Admin Route  */}
-    <Route path="/admin" element={<Dashboard/>} />  
+    <Route path="/admin/*" element={<Dashboard/>} />  
 
 
     {/* client Route */}
