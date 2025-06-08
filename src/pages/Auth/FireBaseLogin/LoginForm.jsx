@@ -70,7 +70,6 @@ const LoginPages = () => {
     } catch (error) {
       toast.error(`Google Login Failed: ${error.message}`);
     } finally {
-      
       setTimeout(() => setLoading(false), 300);
     }
   };
