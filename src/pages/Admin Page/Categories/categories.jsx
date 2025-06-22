@@ -1,7 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from "react-hot-toast";
+import { Navigate, useNavigate } from "react-router-dom";
+
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const Categories = () => {
@@ -15,15 +16,12 @@ const Categories = () => {
       setCategoriesIsLoading(false);
       const token = localStorage.getItem("token");
 
-        if (!token) {
+      if (!token) {
         navigate("/auth/login");
         return;
       }
 
-
       try {
-        
-
         if (!categoriesLoaded) {
           const response = await axios.get(`${BACKEND_URL}/api/category/get`, {
             headers: { Authorization: `Bearer ${token}` },
@@ -31,19 +29,17 @@ const Categories = () => {
           console.log(response.data);
           setCategories(response.data.data);
           setCategoriesLoaded(true);
-        } 
+        }
       } catch (error) {
         console.log(error);
         setCategoriesIsLoading(false);
         setCategories([]);
-        
-      }
-     finally {
+      } finally {
         setCategoriesIsLoading(false);
       }
     };
     featchCategories();
-  }, [categoriesLoaded ,navigate]);
+  }, [categoriesLoaded, navigate]);
 
   const handleDelete = async (id, name) => {
     const confirmDelete = window.confirm(
@@ -70,7 +66,7 @@ const Categories = () => {
       );
 
       console.log(response.data);
-      alert("Category deleted successfully!");
+      toast.success("Category deleted successfully!");
       setCategoriesLoaded(false);
     } catch (error) {
       console.error("Delete failed", error);
@@ -80,7 +76,19 @@ const Categories = () => {
 
   return (
     <div className="w-full p-6">
-      <h1 className="text-3xl font-bold mb-6 text-gray-100">Categories</h1>
+      <div className="flex justify-between">
+        <div className="flex items-center">
+          <h1 className="text-3xl font-bold mb-6 text-gray-100">Categories</h1>
+        </div>
+        <div className="flex items-center">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+            onClick={() => navigate("/admin/categories/addcategories")}
+          >
+            Add Category +
+          </button>
+        </div>
+      </div>
 
       {categoriesIsLoading ? (
         <p className="text-gray-600">Loading categories...</p>
@@ -123,9 +131,13 @@ const Categories = () => {
                     <td className="border px-4 py-2">
                       {Array.isArray(category.features) ? (
                         <ul className="list-disc list-inside">
-                          {category.features.map((feature, i) => (
-                            <li key={i}>{feature}</li>
-                          ))}
+                          {category.features.flatMap((item) =>
+                            item
+                              .split(",")
+                              .map((feature, i) => (
+                                <li key={i}>{feature.trim()}</li>
+                              ))
+                          )}
                         </ul>
                       ) : (
                         category.features
