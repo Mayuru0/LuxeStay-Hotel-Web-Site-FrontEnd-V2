@@ -13,6 +13,9 @@ import AdminRooms from '../../Pages/Admin Page/Rooms/rooms';
 import NotFound from './NotFound';
 import AdminHeader from './AdminHeader';
 import AddCategories from '../../Pages/Admin Page/Categories/addCategories';
+import UpdateCategories from '../../Pages/Admin Page/Categories/UpdateCategories';
+import AddGallery from '../../Pages/Admin Page/Gallery/AddGallery';
+import UpdateGallery from '../../Pages/Admin Page/Gallery/UpdateGallery';
 
 const LayOut = () => {
   return (
@@ -37,10 +40,13 @@ const LayOut = () => {
             <Route path="/booking" element={<AdminBooking />} />
             <Route path="/categories" element={<AdminCategories />} />
             <Route path="/categories/addcategories" element={<AddCategories />} />
+            <Route path="/categories/updatecategories" element={<UpdateCategories />} />
             <Route path="/rooms" element={<AdminRooms />} />
             <Route path="/users" element={<AdminUser />} />
             <Route path="/feedback" element={<AdminFeedback />} />
             <Route path="/gallery" element={<AdminGallery />} />
+            <Route path="/gallery/addgallery" element={<AddGallery />} />
+            <Route path="/gallery/updategallery" element={<UpdateGallery />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

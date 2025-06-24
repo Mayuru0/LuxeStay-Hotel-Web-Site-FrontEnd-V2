@@ -2,23 +2,30 @@ import axios from "axios";
 import React from "react";
 import toast from "react-hot-toast";
 import { BiArrowBack } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const AddCategories = () => {
+const UpdateCategories = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  if(location.state === null){
+  window.location.href = "/admin/categories"
+}
+  console.log(location.state);
   const [formData, setFormData] = React.useState({
-    name: "",
-    price: "",
-    description: "",
-    features: "",
-    image: "",
+    name:location.state.name || "",
+    price:location.state.price ||"",
+    description:location.state.description ||"",
+    features:location.state.features.join(", ") ||"",
+    image:location.state.image ||"",
   });
-  const [previewImage, setPreviewImage] = React.useState(null);
+  const [previewImage, setPreviewImage] = React.useState(location.state.image);
   const [isLoading, setIsLoading] = React.useState(false);
+   
 
 
-//loading
 
+  
 
 
 
@@ -47,8 +54,8 @@ const AddCategories = () => {
     formPayload.append("features", featuresArray);
     formPayload.append("image", image);
 
-    const response = await axios.post(
-      `${BACKEND_URL}/api/category/create`,
+    const response = await axios.put(
+      `${BACKEND_URL}/api/category/update/${location.state._id}`,
       formPayload,
       {
         headers: {
@@ -58,12 +65,12 @@ const AddCategories = () => {
     );
 
     console.log(response.data);
-    toast.success("Category created successfully!");
+    toast.success("Category updated successfully!");
     setIsLoading(false);
     navigate("/admin/categories");
   } catch (error) {
     console.error("Error submitting form:", error);
-    toast.error("Failed to create category");
+    toast.error("Failed to update category");
   }
 };
 
@@ -81,7 +88,7 @@ const AddCategories = () => {
           Back
         </button>
 
-        <h1 className="text-3xl font-bold text-gray-100">Add Category</h1>
+        <h1 className="text-3xl font-bold text-gray-100">update {location.state.name} Category</h1>
       </div>
 
       {/* Form */}
@@ -98,13 +105,14 @@ const AddCategories = () => {
               </label>
               <input
                 type="text"
+                disabled
                 required
                 value={formData.name}
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
                 }
                 placeholder="Enter category name"
-                className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full border text-gray-500 border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
             </div>
 
@@ -166,7 +174,7 @@ const AddCategories = () => {
               <input
                 type="file"
                 accept="image/*"
-                required
+               // required
                 onChange={(e) => {
                   const file = e.target.files[0];
                   if (file) {
@@ -199,7 +207,7 @@ const AddCategories = () => {
                 <div className="border-t-2 border-white min-w-[20px] min-h-[20px] rounded-full animate-spin"> </div>
                 :
                 //text 
-                <span className="ml-2">Add Category</span>
+                <span className="ml-2">Update Category</span>
                 }
 
               </button>
@@ -211,4 +219,4 @@ const AddCategories = () => {
   );
 };
 
-export default AddCategories;
+export default UpdateCategories;

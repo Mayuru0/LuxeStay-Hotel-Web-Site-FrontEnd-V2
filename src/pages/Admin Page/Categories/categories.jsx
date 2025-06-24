@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -145,9 +145,13 @@ const Categories = () => {
                     </td>
                     <td className="border px-4 py-2">{category.description}</td>
                     <td className="border px-4 py-2 text-center">
-                      <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                      <Link
+                      
+                        to={`/admin/categories/updatecategories`}
+                        state={ category }
+                      className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
                         Edit
-                      </button>
+                      </Link>
                       <button
                         onClick={() =>
                           handleDelete(category._id, category.name)
