@@ -12,6 +12,7 @@ import {
   Hotel,
   Mail,
   Globe,
+  ImagePlay,
 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore.jsx';
 import api from '../../config/api.js';
@@ -26,6 +27,7 @@ const navLinks = [
   { name: 'Gallery', path: '/admin/gallery', icon: <Image size={18} /> },
   { name: 'Reviews', path: '/admin/reviews', icon: <Star size={18} /> },
   { name: 'Destinations', path: '/admin/destinations', icon: <Globe size={18} /> },
+  { name: 'BG Images', path: '/admin/bg-images', icon: <ImagePlay size={18} /> },
   { name: 'Messages', path: '/admin/contacts', icon: <Mail size={18} />, badge: true },
 ];
 

@@ -2,40 +2,39 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, MapPin, ArrowRight } from 'lucide-react';
 import useScrollReveal from '../../hooks/useScrollReveal.js';
-
-const STORAGE_KEY = 'hotelDestinations';
+import api from '../../config/api.js';
 
 const DEFAULT_DESTINATIONS = [
   {
-    id: '1',
+    _id: '1',
     name: 'Maldives Paradise',
     location: 'Maldives, Indian Ocean',
     description: 'Crystal clear waters, pristine white sand beaches and overwater bungalows.',
     image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80',
   },
   {
-    id: '2',
+    _id: '2',
     name: 'Santorini Escape',
     location: 'Santorini, Greece',
     description: 'Iconic white-washed buildings, volcanic beaches and breathtaking Aegean sunsets.',
     image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=800&q=80',
   },
   {
-    id: '3',
+    _id: '3',
     name: 'Bali Retreat',
     location: 'Bali, Indonesia',
     description: 'Tropical paradise with ancient temples, terraced rice fields and vibrant culture.',
     image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80',
   },
   {
-    id: '4',
+    _id: '4',
     name: 'Paris Romance',
     location: 'Paris, France',
     description: 'The city of love — iconic landmarks, world-class cuisine and timeless elegance.',
     image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&q=80',
   },
   {
-    id: '5',
+    _id: '5',
     name: 'Dubai Luxury',
     location: 'Dubai, UAE',
     description: 'Ultramodern skyline, golden deserts and the pinnacle of luxury hospitality.',
@@ -43,21 +42,21 @@ const DEFAULT_DESTINATIONS = [
   },
 ];
 
-const loadDestinations = () => {
-  try {
-    const stored = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    return Array.isArray(stored) && stored.length > 0 ? stored : DEFAULT_DESTINATIONS;
-  } catch {
-    return DEFAULT_DESTINATIONS;
-  }
-};
-
 const DestinationsCarousel = () => {
-  const navigate        = useNavigate();
-  const [destinations]  = useState(loadDestinations);
-  const [active, setActive] = useState(0);
-  const [animating, setAnimating] = useState(false);
-  const sectionRef      = useScrollReveal(0.1);
+  const navigate                    = useNavigate();
+  const [destinations, setDestinations] = useState([]);
+  const [active,       setActive]       = useState(0);
+  const [animating,    setAnimating]    = useState(false);
+  const sectionRef                  = useScrollReveal(0.1);
+
+  useEffect(() => {
+    api.get('/api/destination/get?featured=true')
+      .then((res) => {
+        const data = res.data.data;
+        setDestinations(Array.isArray(data) && data.length > 0 ? data : DEFAULT_DESTINATIONS);
+      })
+      .catch(() => setDestinations(DEFAULT_DESTINATIONS));
+  }, []);
 
   const count = destinations.length;
 
@@ -106,7 +105,7 @@ const DestinationsCarousel = () => {
 
             {destinations.map((dest, i) => (
               <div
-                key={dest.id}
+                key={dest._id}
                 className="absolute inset-0 transition-opacity duration-700"
                 style={{ opacity: i === active ? 1 : 0, zIndex: i === active ? 1 : 0 }}
               >
@@ -135,15 +134,19 @@ const DestinationsCarousel = () => {
                       transition: 'transform 0.7s ease 0.2s, opacity 0.7s ease 0.2s',
                     }}
                   >
-                    <p className="flex items-center gap-1.5 text-amber-400 text-sm font-semibold mb-2">
-                      <MapPin size={14} /> {dest.location}
-                    </p>
+                    {dest.location && (
+                      <p className="flex items-center gap-1.5 text-amber-400 text-sm font-semibold mb-2">
+                        <MapPin size={14} /> {dest.location}
+                      </p>
+                    )}
                     <h3 className="text-3xl md:text-4xl font-bold text-white mb-3 leading-tight">
                       {dest.name}
                     </h3>
-                    <p className="text-gray-200 text-sm md:text-base leading-relaxed mb-6 max-w-md">
-                      {dest.description}
-                    </p>
+                    {dest.description && (
+                      <p className="text-gray-200 text-sm md:text-base leading-relaxed mb-6 max-w-md">
+                        {dest.description}
+                      </p>
+                    )}
                     <button
                       onClick={() => navigate('/rooms')}
                       className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200 hover:-translate-y-0.5 shadow-lg hover:shadow-amber-500/30"
@@ -179,7 +182,7 @@ const DestinationsCarousel = () => {
           <div className="flex items-center justify-center gap-3 mt-6">
             {destinations.map((dest, i) => (
               <button
-                key={dest.id}
+                key={dest._id}
                 onClick={() => goTo(i)}
                 className={`relative overflow-hidden rounded-xl transition-all duration-300 ${
                   i === active

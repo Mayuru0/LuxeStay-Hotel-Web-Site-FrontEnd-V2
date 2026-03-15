@@ -19,27 +19,15 @@ const DEFAULTS = {
   homeCta:        'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1920&q=80',
 };
 
-const loadBg = (key) => {
-  try {
-    const stored = JSON.parse(localStorage.getItem('heroImages') || '{}');
-    return stored[key] || DEFAULTS[key];
-  } catch {
-    return DEFAULTS[key];
-  }
-};
-
 const Home = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [rooms,      setRooms]      = useState([]);
   const [reviews,    setReviews]    = useState([]);
   const [loading,    setLoading]    = useState(true);
+  const [bgSettings, setBgSettings] = useState(DEFAULTS);
 
-  /* Background images from admin settings */
-  const bgHero       = loadBg('homeHero');
-  const bgRooms      = loadBg('homeRooms');
-  const bgCategories = loadBg('homeCategories');
-  const bgCta        = loadBg('homeCta');
+  const bg = (key) => bgSettings[key] || DEFAULTS[key];
 
   /* Scroll-reveal refs */
   const roomsRef      = useScrollReveal(0.08);
@@ -50,14 +38,16 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [catsRes, roomsRes, reviewsRes] = await Promise.all([
+        const [catsRes, roomsRes, reviewsRes, bgRes] = await Promise.all([
           api.get('/api/category/get?limit=100'),
           api.get('/api/room/get'),
           api.get('/api/review/featured?limit=6'),
+          api.get('/api/bgimage/settings'),
         ]);
         setCategories((catsRes.data.data   || []).slice(0, 3));
         setRooms(     (roomsRes.data.data  || []).slice(0, 3));
         setReviews(    reviewsRes.data.data || []);
+        if (bgRes.data.data) setBgSettings((prev) => ({ ...prev, ...bgRes.data.data }));
       } catch {}
       finally { setLoading(false); }
     };
@@ -67,7 +57,7 @@ const Home = () => {
   return (
     <>
       {/* Hero */}
-      <HeroSection bgImage={bgHero} />
+      <HeroSection bgImage={bg('homeHero')} />
 
       {/* Features */}
       <FeaturesSection />
@@ -76,7 +66,7 @@ const Home = () => {
       <section
         ref={roomsRef}
         className="py-24 relative bg-fixed bg-cover bg-center"
-        style={{ backgroundImage: `url('${bgRooms}')` }}
+        style={{ backgroundImage: `url('${bg('homeRooms')}')` }}
       >
         <div className="absolute inset-0 bg-black/65" />
 
@@ -122,7 +112,7 @@ const Home = () => {
         <section
           ref={categoriesRef}
           className="py-24 relative bg-fixed bg-cover bg-center"
-          style={{ backgroundImage: `url('${bgCategories}')` }}
+          style={{ backgroundImage: `url('${bg('homeCategories')}')` }}
         >
           <div className="absolute inset-0 bg-black/65" />
 
@@ -243,7 +233,7 @@ const Home = () => {
       <section
         ref={ctaRef}
         className="py-24 relative overflow-hidden bg-fixed bg-cover bg-center"
-        style={{ backgroundImage: `url('${bgCta}')` }}
+        style={{ backgroundImage: `url('${bg('homeCta')}')` }}
       >
         {/* Warm dark overlay */}
         <div className="absolute inset-0 bg-black/70" />

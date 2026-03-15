@@ -21,7 +21,7 @@ const HeroSection = ({ bgImage }) => {
   const today = new Date().toISOString().split('T')[0];
 
   return (
-    <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
 
       {/* Ken-Burns background */}
       <div

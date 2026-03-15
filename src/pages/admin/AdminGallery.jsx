@@ -4,16 +4,16 @@ import Spinner from '../../components/ui/Spinner.jsx';
 import Modal from '../../components/ui/Modal.jsx';
 import Button from '../../components/ui/Button.jsx';
 import toast from 'react-hot-toast';
-import { Plus, Trash2, Upload } from 'lucide-react';
+import { Plus, Trash2, Upload, Star } from 'lucide-react';
 
 const AdminGallery = () => {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [items,       setItems]       = useState([]);
+  const [loading,     setLoading]     = useState(true);
   const [uploadModal, setUploadModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState({ open: false, item: null });
-  const [saving, setSaving] = useState(false);
-  const [deleting, setDeleting] = useState(false);
-  const [form, setForm] = useState({ name: '', description: '', image: null });
+  const [saving,      setSaving]      = useState(false);
+  const [deleting,    setDeleting]    = useState(false);
+  const [form,        setForm]        = useState({ name: '', description: '', image: null });
 
   useEffect(() => { fetchItems(); }, []);
 
@@ -67,6 +67,16 @@ const AdminGallery = () => {
     }
   };
 
+  const handleToggleFeatured = async (item) => {
+    try {
+      const res = await api.patch(`/api/gallery/featured/${item._id}`);
+      setItems((prev) => prev.map((i) => i._id === item._id ? res.data.data : i));
+      toast.success(res.data.data.isFeatured ? 'Added to featured!' : 'Removed from featured');
+    } catch {
+      toast.error('Failed to update');
+    }
+  };
+
   return (
     <div className="space-y-5">
       <div className="flex justify-end">
@@ -84,18 +94,47 @@ const AdminGallery = () => {
           {items.map((item) => (
             <div key={item._id} className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 group relative">
               <div className="aspect-square overflow-hidden">
-                <img src={item.image} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
               </div>
+
+              {/* Featured badge */}
+              {item.isFeatured && (
+                <div className="absolute top-2 left-2">
+                  <span className="flex items-center gap-1 bg-amber-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow">
+                    <Star size={10} fill="white" /> Featured
+                  </span>
+                </div>
+              )}
+
+              {/* Star toggle — top right */}
+              <button
+                onClick={() => handleToggleFeatured(item)}
+                title={item.isFeatured ? 'Remove from featured' : 'Add to featured'}
+                className={`absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 shadow ${
+                  item.isFeatured
+                    ? 'bg-amber-500 text-white hover:bg-amber-600'
+                    : 'bg-white/80 text-gray-400 hover:text-amber-500 opacity-0 group-hover:opacity-100'
+                }`}
+              >
+                <Star size={13} fill={item.isFeatured ? 'white' : 'none'} />
+              </button>
+
+              {/* Delete button */}
+              <button
+                onClick={() => setDeleteModal({ open: true, item })}
+                className="absolute bottom-2 right-2 bg-red-600 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-700"
+              >
+                <Trash2 size={12} />
+              </button>
+
               <div className="p-3">
                 <p className="font-medium text-gray-900 text-sm truncate">{item.name}</p>
                 {item.description && <p className="text-xs text-gray-400 truncate mt-0.5">{item.description}</p>}
               </div>
-              <button
-                onClick={() => setDeleteModal({ open: true, item })}
-                className="absolute top-2 right-2 bg-red-600 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-700"
-              >
-                <Trash2 size={12} />
-              </button>
             </div>
           ))}
         </div>

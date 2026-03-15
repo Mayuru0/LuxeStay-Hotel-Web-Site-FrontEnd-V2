@@ -10,14 +10,15 @@ const GalleryPage = () => {
   const [heroImage, setHeroImage] = useState(null);
 
   useEffect(() => {
-    api.get('/api/gallery/get').then((res) => {
-      const data = res.data.data || [];
-      setItems(data);
-      try {
-        const saved = JSON.parse(localStorage.getItem('heroImages') || '{}');
-        if (saved.gallery) setHeroImage(saved.gallery);
-        else if (data.length > 0) setHeroImage(data[0].image);
-      } catch (e) { void e; if (data.length > 0) setHeroImage(data[0].image); }
+    Promise.all([
+      api.get('/api/gallery/get?featured=true'),
+      api.get('/api/bgimage/settings'),
+    ]).then(([galleryRes, bgRes]) => {
+      const featured = galleryRes.data.data || [];
+      setItems(featured);
+      const bg = bgRes.data.data || {};
+      if (bg.gallery) setHeroImage(bg.gallery);
+      else if (featured.length > 0) setHeroImage(featured[0].image);
     }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
