@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore.jsx';
 import { Menu, X, ChevronDown, User, CalendarDays, LogOut, Hotel } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -7,9 +7,13 @@ import toast from 'react-hot-toast';
 const Navbar = () => {
   const { isAuthenticated, user, dispatch } = useAuthStore();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [mobileOpen,   setMobileOpen]   = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [scrolled,     setScrolled]     = useState(false);
+
+  const DARK_PAGES = ['/my-bookings', '/profile'];
+  const forceDark = DARK_PAGES.includes(pathname);
 
   /* Scroll-aware class switching */
   useEffect(() => {
@@ -38,7 +42,7 @@ const Navbar = () => {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-      scrolled ? 'bg-black/30 backdrop-blur-md shadow-sm' : 'bg-transparent'
+      forceDark ? 'bg-gray-900 shadow-md' : scrolled ? 'bg-black/30 backdrop-blur-md shadow-sm' : 'bg-transparent'
     }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">

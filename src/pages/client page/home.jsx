@@ -2,14 +2,13 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeroSection from '../../components/client/HeroSection.jsx';
 import FeaturesSection from '../../components/client/FeaturesSection.jsx';
-import TestimonialsSection from '../../components/client/TestimonialsSection.jsx';
 import RoomCard from '../../components/client/RoomCard.jsx';
-import StarRating from '../../components/ui/StarRating.jsx';
 import Spinner from '../../components/ui/Spinner.jsx';
 import api from '../../config/api.js';
-import { ArrowRight, Quote, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import useScrollReveal from '../../hooks/useScrollReveal.js';
 import DestinationsCarousel from '../../components/client/DestinationsCarousel.jsx';
+import ReviewsCarousel from '../../components/client/ReviewsCarousel.jsx';
 
 /* Default fallback bg images */
 const DEFAULTS = {
@@ -32,7 +31,6 @@ const Home = () => {
   /* Scroll-reveal refs */
   const roomsRef      = useScrollReveal(0.08);
   const categoriesRef = useScrollReveal(0.08);
-  const reviewsRef    = useScrollReveal(0.08);
   const ctaRef        = useScrollReveal(0.2);
 
   useEffect(() => {
@@ -170,64 +168,8 @@ const Home = () => {
         </section>
       )}
 
-      {/* ── Guest Reviews ── */}
-      <section ref={reviewsRef} className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14 reveal">
-            <p className="text-amber-600 font-semibold text-sm uppercase tracking-widest mb-2">Guest Reviews</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">What Our Guests Say</h2>
-            <div className="w-16 h-1 bg-amber-500 mx-auto mt-4 rounded-full" />
-          </div>
-
-          {reviews.length === 0 ? (
-            <TestimonialsSection />
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {reviews.map((review, i) => {
-                const user        = review.userId || {};
-                const categoryName = review.roomId?.category?.name || 'Hotel Room';
-                const avatarUrl   =
-                  user.profilePic ||
-                  `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                    (user.firstName || 'G') + ' ' + (user.lastName || '')
-                  )}&background=1e40af&color=fff&size=64`;
-
-                return (
-                  <div
-                    key={review._id}
-                    className={`reveal stagger-${(i % 3) + 1} card-hover bg-white rounded-2xl shadow-sm border border-gray-100 p-6 flex flex-col gap-4 group`}
-                  >
-                    <Quote size={28} className="text-amber-400 shrink-0 quote-float" />
-                    <StarRating rating={review.rating} size="md" />
-                    <p className="text-gray-600 text-sm leading-relaxed flex-1">
-                      {review.comment
-                        ? `"${review.comment}"`
-                        : <span className="italic text-gray-400">No comment provided.</span>
-                      }
-                    </p>
-                    <div className="border-t border-gray-100 pt-4 flex items-center gap-3">
-                      <img
-                        src={avatarUrl}
-                        alt={user.firstName}
-                        className="w-10 h-10 rounded-full object-cover shrink-0 ring-2 ring-amber-100 group-hover:ring-amber-300 transition-all"
-                      />
-                      <div>
-                        <p className="font-semibold text-gray-900 text-sm">
-                          {user.firstName} {user.lastName}
-                        </p>
-                        <p className="text-xs text-amber-600 font-medium">{categoryName}</p>
-                      </div>
-                      <span className="ml-auto text-xs text-gray-400">
-                        {new Date(review.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      </section>
+      {/* ── Guest Reviews 3D Carousel ── */}
+      <ReviewsCarousel reviews={reviews} />
 
       {/* ── CTA Banner ── */}
       <section
