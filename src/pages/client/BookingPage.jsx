@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import Navbar from '../../components/client/Navbar.jsx';
-import Footer from '../../components/client/Footer.jsx';
 import { useAuthStore } from '../../store/authStore.jsx';
 import { formatDate, formatCurrency, calculateNights } from '../../utils/formatDate.js';
 import api from '../../config/api.js';
@@ -31,9 +29,7 @@ const BookingPage = () => {
 
   if (bookingConfirmed) {
     return (
-      <div className="min-h-screen bg-gray-50 flex flex-col">
-        <Navbar />
-        <div className="flex-1 flex items-center justify-center px-4">
+      <div className="bg-gray-50 flex items-center justify-center px-4 py-24">
           <div className="bg-white rounded-2xl shadow-xl p-10 max-w-md w-full text-center">
             <div className="flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mx-auto mb-5">
               <CheckCircle size={40} className="text-green-600" />
@@ -67,8 +63,6 @@ const BookingPage = () => {
               View My Bookings
             </button>
           </div>
-        </div>
-        <Footer />
       </div>
     );
   }
@@ -102,10 +96,9 @@ const BookingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navbar />
+    <div className="bg-gray-50">
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Complete Your Booking</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
@@ -205,7 +198,6 @@ const BookingPage = () => {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 };

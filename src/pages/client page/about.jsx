@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import Navbar from '../../components/client/Navbar.jsx';
-import Footer from '../../components/client/Footer.jsx';
 import { Hotel, Award, Users, Star } from 'lucide-react';
 import api from '../../config/api.js';
 
@@ -31,8 +29,7 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navbar />
+    <div className="bg-gray-50">
 
       {/* Hero */}
       <div className="relative py-20 text-center text-white overflow-hidden bg-gray-800">
@@ -137,7 +134,6 @@ const About = () => {
         </div>
       </section>
 
-      <Footer />
     </div>
   );
 };

@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Navbar from '../../components/client/Navbar.jsx';
-import Footer from '../../components/client/Footer.jsx';
 import Spinner from '../../components/ui/Spinner.jsx';
 import StarRating from '../../components/ui/StarRating.jsx';
 import Badge from '../../components/ui/Badge.jsx';
@@ -140,11 +138,8 @@ const RoomDetailPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex flex-col">
-        <Navbar />
-        <div className="flex-1 flex items-center justify-center">
-          <Spinner size="lg" />
-        </div>
+      <div className="flex items-center justify-center py-24">
+        <Spinner size="lg" />
       </div>
     );
   }
@@ -168,8 +163,7 @@ const RoomDetailPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navbar />
+    <div className="bg-gray-50">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
         {/* Back */}
@@ -417,7 +411,6 @@ const RoomDetailPage = () => {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 };

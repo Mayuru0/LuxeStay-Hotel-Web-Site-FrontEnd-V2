@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import Navbar from '../../components/client/Navbar.jsx';
-import Footer from '../../components/client/Footer.jsx';
 import Badge from '../../components/ui/Badge.jsx';
 import Spinner from '../../components/ui/Spinner.jsx';
 import Modal from '../../components/ui/Modal.jsx';
@@ -87,8 +85,7 @@ const MyBookingsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navbar />
+    <div className="bg-gray-50">
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
         <div className="mb-8">
@@ -285,7 +282,6 @@ const MyBookingsPage = () => {
         )}
       </Modal>
 
-      <Footer />
     </div>
   );
 };

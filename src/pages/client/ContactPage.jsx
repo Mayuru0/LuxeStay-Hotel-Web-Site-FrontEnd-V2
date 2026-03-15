@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import Navbar from '../../components/client/Navbar.jsx';
-import Footer from '../../components/client/Footer.jsx';
 import Button from '../../components/ui/Button.jsx';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
@@ -40,8 +38,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navbar />
+    <div className="bg-gray-50">
 
       {/* Hero */}
       <div className="relative py-16 text-center text-white overflow-hidden bg-gray-800">
@@ -149,7 +146,6 @@ const ContactPage = () => {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 };

@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import Navbar from '../../components/client/Navbar.jsx';
-import Footer from '../../components/client/Footer.jsx';
 import Spinner from '../../components/ui/Spinner.jsx';
 import api from '../../config/api.js';
 import { X } from 'lucide-react';
@@ -24,8 +22,7 @@ const GalleryPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navbar />
+    <div className="bg-gray-50">
 
       {/* Hero */}
       <div className="relative py-16 text-center text-white overflow-hidden bg-gray-800">
@@ -104,7 +101,6 @@ const GalleryPage = () => {
         </div>
       )}
 
-      <Footer />
     </div>
   );
 };

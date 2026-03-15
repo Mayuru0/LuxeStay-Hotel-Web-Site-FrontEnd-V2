@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './store/authStore.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
+import ClientLayout from './layouts/ClientLayout.jsx';
 
 // Existing pages
 import Home from './Pages/Client Page/home.jsx';
@@ -48,30 +49,32 @@ function App() {
         />
 
         <Routes>
-          {/* Public Client Routes */}
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/rooms" element={<RoomsPage />} />
-          <Route path="/rooms/:roomId" element={<RoomDetailPage />} />
-          <Route path="/gallery" element={<GalleryPage />} />
-          <Route path="/contact" element={<ContactPage />} />
+          {/* Client Layout — Navbar + Footer shared */}
+          <Route element={<ClientLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/rooms" element={<RoomsPage />} />
+            <Route path="/rooms/:roomId" element={<RoomDetailPage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/contact" element={<ContactPage />} />
 
-          {/* Protected Client Routes */}
-          <Route path="/booking/:roomId" element={
-            <ProtectedRoute>
-              <BookingPage />
-            </ProtectedRoute>
-          } />
-          <Route path="/my-bookings" element={
-            <ProtectedRoute>
-              <MyBookingsPage />
-            </ProtectedRoute>
-          } />
-          <Route path="/profile" element={
-            <ProtectedRoute>
-              <ProfilePage />
-            </ProtectedRoute>
-          } />
+            {/* Protected Client Routes */}
+            <Route path="/booking/:roomId" element={
+              <ProtectedRoute>
+                <BookingPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/my-bookings" element={
+              <ProtectedRoute>
+                <MyBookingsPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            } />
+          </Route>
 
           {/* Auth Routes */}
           <Route path="/auth/login" element={<LoginPage />} />

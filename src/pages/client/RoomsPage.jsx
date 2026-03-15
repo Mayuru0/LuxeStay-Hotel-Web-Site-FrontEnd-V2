@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import Navbar from '../../components/client/Navbar.jsx';
-import Footer from '../../components/client/Footer.jsx';
 import RoomCard from '../../components/client/RoomCard.jsx';
 import Spinner from '../../components/ui/Spinner.jsx';
 import api from '../../config/api.js';
@@ -93,8 +91,7 @@ const RoomsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navbar />
+    <div className="bg-gray-50">
 
       {/* Hero Banner */}
       <div className="relative py-28 text-white text-center overflow-hidden bg-gray-800">
@@ -193,7 +190,6 @@ const RoomsPage = () => {
         )}
       </div>
 
-      <Footer />
     </div>
   );
 };

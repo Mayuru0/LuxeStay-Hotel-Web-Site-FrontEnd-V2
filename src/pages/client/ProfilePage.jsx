@@ -1,6 +1,4 @@
 import { useState, useRef } from 'react';
-import Navbar from '../../components/client/Navbar.jsx';
-import Footer from '../../components/client/Footer.jsx';
 import { useAuthStore } from '../../store/authStore.jsx';
 import { formatDate } from '../../utils/formatDate.js';
 import api from '../../config/api.js';
@@ -96,8 +94,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Navbar />
+    <div className="bg-gray-50">
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">My Profile</h1>
@@ -205,7 +202,6 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 };
