@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../../components/client/Navbar.jsx';
 import Footer from '../../components/client/Footer.jsx';
 import Button from '../../components/ui/Button.jsx';
@@ -10,6 +10,18 @@ import api from '../../config/api.js';
 const ContactPage = () => {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [loading, setLoading] = useState(false);
+  const [heroImage, setHeroImage] = useState(null);
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('heroImages') || '{}');
+      if (saved.contact) { setHeroImage(saved.contact); return; }
+    } catch (e) { void e; }
+    api.get('/api/gallery/get').then((res) => {
+      const items = res.data.data || [];
+      if (items.length > 0) setHeroImage(items[0].image);
+    }).catch(() => {});
+  }, []);
 
   const handleChange = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
 
@@ -32,12 +44,23 @@ const ContactPage = () => {
       <Navbar />
 
       {/* Hero */}
-      <div className="bg-gradient-to-r from-blue-900 to-blue-700 py-16 text-center text-white">
-        <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-2">Get In Touch</p>
-        <h1 className="text-4xl md:text-5xl font-bold">Contact Us</h1>
-        <p className="text-blue-200 mt-3 max-w-xl mx-auto">
-          We'd love to hear from you. Our team is always here to help.
-        </p>
+      <div className="relative py-16 text-center text-white overflow-hidden bg-gray-800">
+        {heroImage && (
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+            backgroundImage: `url('${heroImage }')`,
+          }}
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
+        <div className="relative z-10">
+          <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-2">Get In Touch</p>
+          <h1 className="text-4xl md:text-5xl font-bold">Contact Us</h1>
+          <p className="text-gray-200 mt-3 max-w-xl mx-auto">
+            We'd love to hear from you. Our team is always here to help.
+          </p>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 w-full flex-1">

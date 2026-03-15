@@ -1,8 +1,22 @@
+import { useState, useEffect } from 'react';
 import Navbar from '../../components/client/Navbar.jsx';
 import Footer from '../../components/client/Footer.jsx';
 import { Hotel, Award, Users, Star } from 'lucide-react';
+import api from '../../config/api.js';
 
 const About = () => {
+  const [heroImage, setHeroImage] = useState(null);
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('heroImages') || '{}');
+      if (saved.about) { setHeroImage(saved.about); return; }
+    } catch (e) { void e; }
+    api.get('/api/gallery/get').then((res) => {
+      const items = res.data.data || [];
+      if (items.length > 0) setHeroImage(items[0].image);
+    }).catch(() => {});
+  }, []);
   const stats = [
     { icon: <Award size={24} />, label: 'Years of Excellence', value: '25+' },
     { icon: <Users size={24} />, label: 'Happy Guests', value: '50K+' },
@@ -21,8 +35,16 @@ const About = () => {
       <Navbar />
 
       {/* Hero */}
-      <div className="relative bg-gradient-to-r from-blue-900 to-blue-700 py-20 text-center text-white">
-        <div className="absolute inset-0 bg-black/20" />
+      <div className="relative py-20 text-center text-white overflow-hidden bg-gray-800">
+        {heroImage && (
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+            backgroundImage: `url('${heroImage }')`,
+          }}
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
         <div className="relative z-10">
           <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-2">Our Story</p>
           <h1 className="text-4xl md:text-5xl font-bold">About LuxeStay</h1>

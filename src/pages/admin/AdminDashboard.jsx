@@ -5,8 +5,85 @@ import Spinner from '../../components/ui/Spinner.jsx';
 import Badge from '../../components/ui/Badge.jsx';
 import { formatCurrency, formatDate } from '../../utils/formatDate.js';
 import {
-  BedDouble, CalendarDays, Clock, CheckCircle, XCircle, DollarSign, Users, ArrowRight, MessageSquare, Mail,
+  BedDouble, CalendarDays, Clock, CheckCircle, XCircle, DollarSign, Users, ArrowRight, MessageSquare, Mail, Image,
 } from 'lucide-react';
+
+const PAGE_KEYS = ['rooms', 'gallery', 'about', 'contact'];
+const PAGE_LABELS = { rooms: 'Rooms Page', gallery: 'Gallery Page', about: 'About Page', contact: 'Contact Page' };
+
+const loadHeroImages = () => {
+  try { return JSON.parse(localStorage.getItem('heroImages') || '{}'); } catch { return {}; }
+};
+
+const PageHeroSettings = () => {
+  const [galleryItems, setGalleryItems] = useState([]);
+  const [selected, setSelected] = useState(loadHeroImages);
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    api.get('/api/gallery/get').then((res) => setGalleryItems(res.data.data || [])).catch(() => {});
+  }, []);
+
+  const handleSave = () => {
+    localStorage.setItem('heroImages', JSON.stringify(selected));
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
+
+  return (
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-2">
+          <Image size={18} className="text-blue-800" />
+          <h2 className="text-lg font-bold text-gray-900">Page Hero Images</h2>
+        </div>
+        <button
+          onClick={handleSave}
+          className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${saved ? 'bg-green-600 text-white' : 'bg-blue-800 hover:bg-blue-900 text-white'}`}
+        >
+          {saved ? 'Saved!' : 'Save Changes'}
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+        {PAGE_KEYS.map((page) => {
+          const imgUrl = selected[page] || '';
+          return (
+            <div key={page} className="border border-gray-200 rounded-xl overflow-hidden">
+              <div className="h-32 bg-gray-100 relative">
+                {imgUrl ? (
+                  <img src={imgUrl} alt={page} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-gray-300">
+                    <Image size={32} />
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-black/30 flex items-end p-2">
+                  <span className="text-white text-xs font-bold">{PAGE_LABELS[page]}</span>
+                </div>
+              </div>
+              <div className="p-3">
+                <select
+                  value={imgUrl}
+                  onChange={(e) => setSelected((prev) => ({ ...prev, [page]: e.target.value }))}
+                  className="w-full border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-800"
+                >
+                  <option value="">— Select Image —</option>
+                  {galleryItems.map((item) => (
+                    <option key={item._id} value={item.image}>{item.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {galleryItems.length === 0 && (
+        <p className="text-xs text-gray-400 mt-3">No gallery images found. Add images in <Link to="/admin/gallery" className="text-blue-800 hover:underline">Manage Gallery</Link>.</p>
+      )}
+    </div>
+  );
+};
 
 const StatCard = ({ icon, label, value, color }) => (
   <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 flex items-center gap-4">
@@ -66,6 +143,9 @@ const AdminDashboard = () => {
           })}
         </div>
       </div>
+
+      {/* Page Hero Images */}
+      <PageHeroSettings />
 
       {/* Quick Links */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

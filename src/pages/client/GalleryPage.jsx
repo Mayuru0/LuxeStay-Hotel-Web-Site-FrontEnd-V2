@@ -9,10 +9,17 @@ const GalleryPage = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [lightbox, setLightbox] = useState(null);
+  const [heroImage, setHeroImage] = useState(null);
 
   useEffect(() => {
     api.get('/api/gallery/get').then((res) => {
-      setItems(res.data.data || []);
+      const data = res.data.data || [];
+      setItems(data);
+      try {
+        const saved = JSON.parse(localStorage.getItem('heroImages') || '{}');
+        if (saved.gallery) setHeroImage(saved.gallery);
+        else if (data.length > 0) setHeroImage(data[0].image);
+      } catch (e) { void e; if (data.length > 0) setHeroImage(data[0].image); }
     }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
@@ -21,12 +28,23 @@ const GalleryPage = () => {
       <Navbar />
 
       {/* Hero */}
-      <div className="bg-gradient-to-r from-blue-900 to-blue-700 py-16 text-center text-white">
-        <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-2">Our Gallery</p>
-        <h1 className="text-4xl md:text-5xl font-bold">Hotel Moments</h1>
-        <p className="text-blue-200 mt-3 max-w-xl mx-auto">
-          A glimpse into the luxury and elegance that awaits you at LuxeStay Hotel.
-        </p>
+      <div className="relative py-16 text-center text-white overflow-hidden bg-gray-800">
+        {heroImage && (
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{
+            backgroundImage: `url('${heroImage }')`,
+          }}
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
+        <div className="relative z-10">
+          <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-2">Our Gallery</p>
+          <h1 className="text-4xl md:text-5xl font-bold">Hotel Moments</h1>
+          <p className="text-gray-200 mt-3 max-w-xl mx-auto">
+            A glimpse into the luxury and elegance that awaits you at LuxeStay Hotel.
+          </p>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">

@@ -14,6 +14,7 @@ const RoomsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [heroImage, setHeroImage] = useState(null);
 
   const [filters, setFilters] = useState({
     checkIn: searchParams.get('checkIn') || '',
@@ -24,6 +25,17 @@ const RoomsPage = () => {
   });
 
   const today = new Date().toISOString().split('T')[0];
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('heroImages') || '{}');
+      if (saved.rooms) { setHeroImage(saved.rooms); return; }
+    } catch (e) { void e; }
+    api.get('/api/gallery/get').then((res) => {
+      const items = res.data.data || [];
+      if (items.length > 0) setHeroImage(items[0].image);
+    }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     api.get('/api/category/get?limit=100').then((res) => {
@@ -85,20 +97,28 @@ const RoomsPage = () => {
       <Navbar />
 
       {/* Hero Banner */}
-      <div className="relative bg-gradient-to-r from-blue-900 to-blue-700 py-16 text-white text-center">
-        <div className="absolute inset-0 bg-black/20" />
+      <div className="relative py-28 text-white text-center overflow-hidden bg-gray-800">
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('${heroImage }')`,
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
         <div className="relative z-10">
-          <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-2">Discover</p>
-          <h1 className="text-4xl md:text-5xl font-bold">Our Rooms & Suites</h1>
-          <p className="text-blue-200 mt-3 max-w-xl mx-auto">
-            Find the perfect room for your stay, from cozy standards to luxurious suites.
+          <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-3">
+            Featured Accommodations
+          </p>
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">Our Rooms</h1>
+          <p className="text-gray-200 text-lg max-w-xl mx-auto leading-relaxed">
+            Choose Your Experience — discover our curated collection of room types designed for comfort and elegance.
           </p>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
         {/* Filter Bar */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-8">
+        <div className="bg-white relative rounded-xl shadow-lg border border-gray-100 p-5 mb-8 -mt-20 z-50">
           <div className="flex flex-wrap gap-4 items-end">
             <div className="flex flex-col gap-1 min-w-[140px]">
               <label className="text-xs font-semibold text-gray-600 uppercase">Check-In</label>
