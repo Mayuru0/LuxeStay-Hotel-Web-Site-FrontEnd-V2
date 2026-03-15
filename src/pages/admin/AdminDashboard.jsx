@@ -3,84 +3,270 @@ import { Link } from 'react-router-dom';
 import api from '../../config/api.js';
 import Spinner from '../../components/ui/Spinner.jsx';
 import Badge from '../../components/ui/Badge.jsx';
+import Modal from '../../components/ui/Modal.jsx';
+import toast from 'react-hot-toast';
 import { formatCurrency, formatDate } from '../../utils/formatDate.js';
 import {
-  BedDouble, CalendarDays, Clock, CheckCircle, XCircle, DollarSign, Users, ArrowRight, MessageSquare, Mail, Image,
+  BedDouble, CalendarDays, Clock, CheckCircle, XCircle, DollarSign, Users,
+  ArrowRight, MessageSquare, Mail, Image, Upload, X,
 } from 'lucide-react';
 
-const PAGE_KEYS = ['rooms', 'gallery', 'about', 'contact'];
-const PAGE_LABELS = { rooms: 'Rooms Page', gallery: 'Gallery Page', about: 'About Page', contact: 'Contact Page' };
+const HOME_KEYS  = ['homeHero', 'homeRooms', 'homeCategories', 'homeCta'];
+const PAGE_KEYS  = ['rooms', 'gallery', 'about', 'contact'];
+
+const ALL_LABELS = {
+  homeHero:       'Hero Section',
+  homeRooms:      'Rooms Section',
+  homeCategories: 'Categories Section',
+  homeCta:        'CTA Section',
+  rooms:          'Rooms Page',
+  gallery:        'Gallery Page',
+  about:          'About Page',
+  contact:        'Contact Page',
+};
 
 const loadHeroImages = () => {
   try { return JSON.parse(localStorage.getItem('heroImages') || '{}'); } catch { return {}; }
 };
 
+/* Reusable image-picker card */
+const ImagePickerCard = ({ pageKey, label, imgUrl, galleryItems, onChange }) => (
+  <div className="border border-gray-200 rounded-xl overflow-hidden">
+    <div className="h-28 bg-gray-100 relative">
+      {imgUrl ? (
+        <img src={imgUrl} alt={label} className="w-full h-full object-cover" />
+      ) : (
+        <div className="w-full h-full flex items-center justify-center text-gray-300">
+          <Image size={28} />
+        </div>
+      )}
+      <div className="absolute inset-0 bg-black/35 flex items-end p-2">
+        <span className="text-white text-xs font-semibold">{label}</span>
+      </div>
+    </div>
+    <div className="p-3 space-y-2">
+      <select
+        value={imgUrl}
+        onChange={(e) => onChange(pageKey, e.target.value)}
+        className="w-full border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-800"
+      >
+        <option value="">— Select Image —</option>
+        {galleryItems.map((item) => (
+          <option key={item._id} value={item.image}>{item.name}</option>
+        ))}
+      </select>
+      {imgUrl && (
+        <button
+          onClick={() => onChange(pageKey, '')}
+          className="w-full text-xs text-red-500 hover:text-red-700 transition-colors"
+        >
+          Remove
+        </button>
+      )}
+    </div>
+  </div>
+);
+
+/* ── Custom background images stored SEPARATELY from gallery ── */
+const BG_IMAGES_KEY = 'customBgImages';
+
+const loadCustomBgImages = () => {
+  try { return JSON.parse(localStorage.getItem(BG_IMAGES_KEY) || '[]'); } catch { return []; }
+};
+
+const EMPTY_FORM = { name: '', url: '' };
+
 const PageHeroSettings = () => {
-  const [galleryItems, setGalleryItems] = useState([]);
-  const [selected, setSelected] = useState(loadHeroImages);
-  const [saved, setSaved] = useState(false);
+  const [galleryItems,  setGalleryItems]  = useState([]);
+  const [customImages,  setCustomImages]  = useState(loadCustomBgImages);
+  const [selected,      setSelected]      = useState(loadHeroImages);
+  const [saved,         setSaved]         = useState(false);
+  const [addOpen,       setAddOpen]       = useState(false);
+  const [form,          setForm]          = useState(EMPTY_FORM);
 
   useEffect(() => {
     api.get('/api/gallery/get').then((res) => setGalleryItems(res.data.data || [])).catch(() => {});
   }, []);
 
+  /* Save custom images to localStorage whenever they change */
+  useEffect(() => {
+    localStorage.setItem(BG_IMAGES_KEY, JSON.stringify(customImages));
+  }, [customImages]);
+
+  const handleChange = (key, value) => setSelected((prev) => ({ ...prev, [key]: value }));
+
   const handleSave = () => {
     localStorage.setItem('heroImages', JSON.stringify(selected));
     setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+    setTimeout(() => setSaved(false), 2500);
+    toast.success('Background images saved!');
   };
 
+  const closeAdd = () => { setAddOpen(false); setForm(EMPTY_FORM); };
+
+  const handleAddImage = () => {
+    if (!form.name.trim()) { toast.error('Name is required'); return; }
+    if (!form.url.trim())  { toast.error('Image URL is required'); return; }
+    const newImg = { id: Date.now().toString(), name: form.name.trim(), image: form.url.trim() };
+    setCustomImages((prev) => [...prev, newImg]);
+    toast.success('Image saved to background library!');
+    closeAdd();
+  };
+
+  const removeCustomImage = (id) => {
+    setCustomImages((prev) => prev.filter((img) => img.id !== id));
+  };
+
+  /* Combined options for dropdowns: gallery items + custom bg images */
+  const allOptions = [
+    ...galleryItems.map((g) => ({ id: g._id, name: g.name, image: g.image, tag: 'Gallery' })),
+    ...customImages.map((c) => ({ id: c.id, name: c.name, image: c.image, tag: 'Custom' })),
+  ];
+
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 space-y-6">
+
+      {/* Header */}
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-2">
           <Image size={18} className="text-blue-800" />
-          <h2 className="text-lg font-bold text-gray-900">Page Hero Images</h2>
+          <h2 className="text-lg font-bold text-gray-900">Background Images</h2>
+          <span className="text-xs text-gray-400 font-normal">(saved separately from gallery)</span>
         </div>
-        <button
-          onClick={handleSave}
-          className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${saved ? 'bg-green-600 text-white' : 'bg-blue-800 hover:bg-blue-900 text-white'}`}
-        >
-          {saved ? 'Saved!' : 'Save Changes'}
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setAddOpen(true)}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-amber-600 hover:bg-amber-700 text-white transition-colors"
+          >
+            <Upload size={15} /> Add Image URL
+          </button>
+          <button
+            onClick={handleSave}
+            className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
+              saved ? 'bg-green-600 text-white' : 'bg-blue-800 hover:bg-blue-900 text-white'
+            }`}
+          >
+            {saved ? '✓ Saved!' : 'Save Changes'}
+          </button>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-        {PAGE_KEYS.map((page) => {
-          const imgUrl = selected[page] || '';
-          return (
-            <div key={page} className="border border-gray-200 rounded-xl overflow-hidden">
-              <div className="h-32 bg-gray-100 relative">
-                {imgUrl ? (
-                  <img src={imgUrl} alt={page} className="w-full h-full object-cover" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-300">
-                    <Image size={32} />
-                  </div>
-                )}
-                <div className="absolute inset-0 bg-black/30 flex items-end p-2">
-                  <span className="text-white text-xs font-bold">{PAGE_LABELS[page]}</span>
+      {/* Custom saved bg images strip */}
+      {customImages.length > 0 && (
+        <div>
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">
+            Custom Background Images
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {customImages.map((img) => (
+              <div key={img.id} className="relative group w-20 h-14 rounded-lg overflow-hidden border border-gray-200">
+                <img src={img.image} alt={img.name} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity gap-1">
+                  <span className="text-white text-[9px] font-semibold text-center px-1 leading-tight line-clamp-1">{img.name}</span>
+                  <button
+                    onClick={() => removeCustomImage(img.id)}
+                    className="bg-red-600 text-white rounded-full p-0.5 hover:bg-red-700"
+                  >
+                    <X size={10} />
+                  </button>
                 </div>
               </div>
-              <div className="p-3">
-                <select
-                  value={imgUrl}
-                  onChange={(e) => setSelected((prev) => ({ ...prev, [page]: e.target.value }))}
-                  className="w-full border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-800"
-                >
-                  <option value="">— Select Image —</option>
-                  {galleryItems.map((item) => (
-                    <option key={item._id} value={item.image}>{item.name}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      {galleryItems.length === 0 && (
-        <p className="text-xs text-gray-400 mt-3">No gallery images found. Add images in <Link to="/admin/gallery" className="text-blue-800 hover:underline">Manage Gallery</Link>.</p>
+            ))}
+          </div>
+        </div>
       )}
+
+      {/* Home Page Sections */}
+      <div>
+        <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Home Page Sections</p>
+        <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+          {HOME_KEYS.map((key) => (
+            <ImagePickerCard
+              key={key}
+              pageKey={key}
+              label={ALL_LABELS[key]}
+              imgUrl={selected[key] || ''}
+              galleryItems={allOptions}
+              onChange={handleChange}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Other Pages */}
+      <div>
+        <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Other Pages</p>
+        <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+          {PAGE_KEYS.map((key) => (
+            <ImagePickerCard
+              key={key}
+              pageKey={key}
+              label={ALL_LABELS[key]}
+              imgUrl={selected[key] || ''}
+              galleryItems={allOptions}
+              onChange={handleChange}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* ── Add Custom Image URL Modal ── */}
+      <Modal isOpen={addOpen} onClose={closeAdd} title="Add Background Image URL">
+        <div className="space-y-4">
+          <p className="text-xs text-gray-500 bg-gray-50 rounded-lg px-3 py-2">
+            This image is saved to your background image library only — it will <strong>not</strong> appear in the Gallery page.
+          </p>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              value={form.name}
+              onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
+              placeholder="e.g. Rooftop Pool Sunset"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Image URL <span className="text-red-500">*</span>
+            </label>
+            <input
+              value={form.url}
+              onChange={(e) => setForm((p) => ({ ...p, url: e.target.value }))}
+              placeholder="https://images.unsplash.com/..."
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800"
+            />
+            {form.url && (
+              <div className="mt-2 h-28 rounded-xl overflow-hidden bg-gray-100">
+                <img
+                  src={form.url}
+                  alt="preview"
+                  className="w-full h-full object-cover"
+                  onError={(e) => { e.target.style.display = 'none'; }}
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="flex justify-end gap-3 pt-1">
+            <button
+              onClick={closeAdd}
+              className="px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleAddImage}
+              className="px-5 py-2 rounded-lg text-sm font-semibold bg-blue-800 hover:bg-blue-900 text-white transition-colors"
+            >
+              Save to Library
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

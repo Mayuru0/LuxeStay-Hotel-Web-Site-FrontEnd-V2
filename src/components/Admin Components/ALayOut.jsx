@@ -10,6 +10,7 @@ import AdminUsers from '../../pages/admin/AdminUsers.jsx';
 import AdminGallery from '../../pages/admin/AdminGallery.jsx';
 import AdminReviews from '../../pages/admin/AdminReviews.jsx';
 import AdminContacts from '../../pages/admin/AdminContacts.jsx';
+import AdminDestinations from '../../pages/admin/AdminDestinations.jsx';
 
 const LayOut = () => {
   return (
@@ -33,6 +34,7 @@ const LayOut = () => {
             <Route path="/gallery" element={<AdminGallery />} />
             <Route path="/reviews" element={<AdminReviews />} />
             <Route path="/contacts" element={<AdminContacts />} />
+            <Route path="/destinations" element={<AdminDestinations />} />
             {/* Legacy routes kept for backward compatibility */}
             <Route path="/booking" element={<AdminBookings />} />
             <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />

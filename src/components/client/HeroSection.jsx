@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, CalendarDays, Users, ChevronDown } from 'lucide-react';
 
-const HeroSection = () => {
+const DEFAULT_HERO = 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1800';
+
+const HeroSection = ({ bgImage }) => {
   const navigate = useNavigate();
   const [checkIn, setCheckIn]   = useState('');
   const [checkOut, setCheckOut] = useState('');
@@ -25,8 +27,7 @@ const HeroSection = () => {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat animate-ken-burns"
         style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1800')",
+          backgroundImage: `url('${bgImage || DEFAULT_HERO}')`,
         }}
       />
 

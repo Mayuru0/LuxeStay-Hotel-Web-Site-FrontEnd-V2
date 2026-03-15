@@ -9,6 +9,24 @@ import Spinner from '../../components/ui/Spinner.jsx';
 import api from '../../config/api.js';
 import { ArrowRight, Quote, Sparkles } from 'lucide-react';
 import useScrollReveal from '../../hooks/useScrollReveal.js';
+import DestinationsCarousel from '../../components/client/DestinationsCarousel.jsx';
+
+/* Default fallback bg images */
+const DEFAULTS = {
+  homeHero:       'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1800',
+  homeRooms:      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1920&q=80',
+  homeCategories: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1920&q=80',
+  homeCta:        'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1920&q=80',
+};
+
+const loadBg = (key) => {
+  try {
+    const stored = JSON.parse(localStorage.getItem('heroImages') || '{}');
+    return stored[key] || DEFAULTS[key];
+  } catch {
+    return DEFAULTS[key];
+  }
+};
 
 const Home = () => {
   const navigate = useNavigate();
@@ -16,6 +34,12 @@ const Home = () => {
   const [rooms,      setRooms]      = useState([]);
   const [reviews,    setReviews]    = useState([]);
   const [loading,    setLoading]    = useState(true);
+
+  /* Background images from admin settings */
+  const bgHero       = loadBg('homeHero');
+  const bgRooms      = loadBg('homeRooms');
+  const bgCategories = loadBg('homeCategories');
+  const bgCta        = loadBg('homeCta');
 
   /* Scroll-reveal refs */
   const roomsRef      = useScrollReveal(0.08);
@@ -43,7 +67,7 @@ const Home = () => {
   return (
     <>
       {/* Hero */}
-      <HeroSection />
+      <HeroSection bgImage={bgHero} />
 
       {/* Features */}
       <FeaturesSection />
@@ -52,7 +76,7 @@ const Home = () => {
       <section
         ref={roomsRef}
         className="py-24 relative bg-fixed bg-cover bg-center"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1920&q=80')" }}
+        style={{ backgroundImage: `url('${bgRooms}')` }}
       >
         <div className="absolute inset-0 bg-black/65" />
 
@@ -98,7 +122,7 @@ const Home = () => {
         <section
           ref={categoriesRef}
           className="py-24 relative bg-fixed bg-cover bg-center"
-          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=1920&q=80')" }}
+          style={{ backgroundImage: `url('${bgCategories}')` }}
         >
           <div className="absolute inset-0 bg-black/65" />
 
@@ -219,7 +243,7 @@ const Home = () => {
       <section
         ref={ctaRef}
         className="py-24 relative overflow-hidden bg-fixed bg-cover bg-center"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1582719508461-905c673771fd?w=1920&q=80')" }}
+        style={{ backgroundImage: `url('${bgCta}')` }}
       >
         {/* Warm dark overlay */}
         <div className="absolute inset-0 bg-black/70" />
@@ -250,6 +274,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* ── Destinations Carousel ── */}
+      <DestinationsCarousel />
     </>
   );
 };
