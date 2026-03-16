@@ -43,7 +43,7 @@ const HeroSection = ({ bgImage }) => {
 
         {/* Welcome badge */}
         <div className="animate-fade-in inline-block bg-amber-600/20 border border-amber-500/40 text-amber-400 text-sm px-5 py-2 rounded-full mb-6 font-medium tracking-wide">
-          ✦ Welcome to LuxeStay Hotel ✦
+          ✦ Welcome to CINNAMON LAKE Hotel ✦
         </div>
 
         {/* Headline */}

@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
-import { Hotel, MapPin, Phone, Mail } from 'lucide-react';
+import { MapPin, Phone, Mail } from 'lucide-react';
 import useScrollReveal from '../../hooks/useScrollReveal.js';
+import logo from '../../assets/logo.png';
 
 const Footer = () => {
   const footerRef = useScrollReveal(0.05);
@@ -13,9 +14,8 @@ const Footer = () => {
 
           {/* Brand */}
           <div className="reveal stagger-1 col-span-1">
-            <div className="flex items-center gap-2 text-white font-bold text-xl mb-4">
-              <Hotel size={24} className="text-amber-400" />
-              <span>LuxeStay</span>
+            <div className="mb-4">
+              <img src={logo} alt="CINNAMON LAKE Hotel" className="h-12 w-auto object-contain" />
             </div>
             <p className="text-sm text-gray-400 mb-5 leading-relaxed">
               Experience luxury like never before. Where comfort meets elegance and every detail is perfected.
@@ -93,7 +93,7 @@ const Footer = () => {
         {/* Bottom bar */}
         <div className="mt-12 pt-6 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-500">
-            © {new Date().getFullYear()} LuxeStay Hotel. All rights reserved.
+            © {new Date().getFullYear()} CINNAMON LAKE Hotel. All rights reserved.
           </p>
           <p className="text-xs text-gray-600">
             Crafted with care for luxury experiences

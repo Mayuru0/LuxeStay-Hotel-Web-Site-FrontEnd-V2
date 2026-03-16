@@ -40,7 +40,7 @@ const GalleryPage = () => {
           <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-2">Our Gallery</p>
           <h1 className="text-4xl md:text-5xl font-bold">Hotel Moments</h1>
           <p className="text-gray-200 mt-3 max-w-xl mx-auto">
-            A glimpse into the luxury and elegance that awaits you at LuxeStay Hotel.
+            A glimpse into the luxury and elegance that awaits you at CINNAMON LAKE Hotel.
           </p>
         </div>
       </div>

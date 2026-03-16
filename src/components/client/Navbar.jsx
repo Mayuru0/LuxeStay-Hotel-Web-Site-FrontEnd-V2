@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore.jsx';
-import { Menu, X, ChevronDown, User, CalendarDays, LogOut, Hotel } from 'lucide-react';
+import { Menu, X, ChevronDown, User, CalendarDays, LogOut } from 'lucide-react';
 import toast from 'react-hot-toast';
+import logo from '../../assets/logo.png';
 
 const Navbar = () => {
   const { isAuthenticated, user, dispatch } = useAuthStore();
@@ -48,12 +49,8 @@ const Navbar = () => {
           <div className="flex items-center justify-between h-16">
 
             {/* Logo */}
-            <Link
-              to="/"
-              className={`flex items-center gap-2 font-bold text-xl group ${logoColor} transition-colors duration-300`}
-            >
-              <Hotel size={28} className="transition-transform duration-300 group-hover:rotate-12" />
-              <span className="tracking-tight">LuxeStay</span>
+            <Link to="/" className="flex items-center gap-2 group">
+              <img src={logo} alt="CINNAMON LAKE Hotel" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
             </Link>
 
             {/* Desktop Nav Links */}

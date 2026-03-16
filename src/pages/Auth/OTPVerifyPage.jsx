@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import api from '../../config/api.js';
-import { Hotel, ShieldCheck, RefreshCw } from 'lucide-react';
+import { ShieldCheck, RefreshCw } from 'lucide-react';
+import logo from '../../assets/logo.png';
 import Button from '../../components/ui/Button.jsx';
 
 const OTPVerifyPage = () => {
@@ -93,9 +94,8 @@ const OTPVerifyPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm p-8">
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 text-blue-800 font-bold text-2xl mb-4">
-            <Hotel size={30} />
-            <span>LuxeStay</span>
+          <div className="flex items-center justify-center mb-4">
+            <img src={logo} alt="CINNAMON LAKE Hotel" className="h-14 w-auto object-contain" />
           </div>
           <div className="flex items-center justify-center w-16 h-16 bg-blue-50 rounded-full mx-auto mb-4">
             <ShieldCheck size={32} className="text-blue-800" />

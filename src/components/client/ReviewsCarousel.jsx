@@ -22,7 +22,21 @@ const ReviewsCarousel = ({ reviews }) => {
     return () => clearInterval(t);
   }, [active, count, goTo]);
 
-  if (count === 0) return <TestimonialsSection />;
+  // if (count === 0) return <TestimonialsSection />;
+  if (count === 0) return (
+    <section ref={sectionRef} className="py-24 bg-gradient-to-b from-gray-50 to-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+        <p className="text-amber-600 font-semibold text-sm uppercase tracking-widest mb-2">Guest Reviews</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-900">What Our Guests Say</h2>
+        <div className="w-16 h-1 bg-amber-500 mx-auto mt-4 rounded-full mb-10" />
+        <div className="flex flex-col items-center gap-3 text-gray-400">
+          <Quote size={40} className="text-amber-200" />
+          <p className="text-lg font-medium text-gray-500">No reviews yet</p>
+          <p className="text-sm">Be the first to share your experience!</p>
+        </div>
+      </div>
+    </section>
+  );
 
   /* Build visible slots: prev, active, next */
   const prev = ((active - 1) + count) % count;

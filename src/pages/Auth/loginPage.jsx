@@ -3,7 +3,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore.jsx";
 import api from "../../config/api.js";
 import toast from "react-hot-toast";
-import { Hotel, Eye, EyeOff, AlertCircle } from "lucide-react";
+import { Eye, EyeOff, AlertCircle } from "lucide-react";
+import logo from "../../assets/logo.png";
 import Button from "../../components/ui/Button.jsx";
 
 const validate = (email, password) => {
@@ -77,9 +78,8 @@ const LoginPage = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 text-blue-800 font-bold text-2xl mb-2">
-            <Hotel size={30} />
-            <span>LuxeStay</span>
+          <div className="flex items-center justify-center mb-2">
+            <img src={logo} alt="CINNAMON LAKE Hotel" className="h-14 w-auto object-contain" />
           </div>
           <h2 className="text-2xl font-bold text-gray-900">Welcome Back</h2>
           <p className="text-gray-500 text-sm mt-1">Sign in to your account</p>

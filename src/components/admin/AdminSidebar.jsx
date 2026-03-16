@@ -9,11 +9,11 @@ import {
   Image,
   Star,
   LogOut,
-  Hotel,
   Mail,
   Globe,
   ImagePlay,
 } from 'lucide-react';
+import Alogo1 from '../../assets/Alogo1.png';
 import { useAuthStore } from '../../store/authStore.jsx';
 import api from '../../config/api.js';
 import toast from 'react-hot-toast';
@@ -53,11 +53,10 @@ const AdminSidebar = () => {
     <div className="h-screen bg-gray-900 flex flex-col">
       {/* Logo */}
       <div className="p-5 border-b border-gray-700">
-        <Link to="/admin/dashboard" className="flex items-center gap-2 text-white font-bold text-lg">
-          <Hotel size={24} className="text-blue-400" />
-          <span>LuxeStay</span>
+        <Link to="/admin/dashboard" className="flex items-center gap-2">
+          <img src={Alogo1} alt="CINNAMON LAKE Hotel" className="h-10 w-auto object-contain" />
         </Link>
-        <p className="text-gray-400 text-xs mt-1 ml-8">Admin Panel</p>
+        {/* <p className="text-gray-400 text-xs mt-1">Admin Panel</p> */}
       </div>
 
       {/* Navigation */}

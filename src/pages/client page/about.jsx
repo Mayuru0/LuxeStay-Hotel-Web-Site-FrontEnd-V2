@@ -40,7 +40,7 @@ const About = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
         <div className="relative z-10">
           <p className="text-amber-400 text-sm font-semibold uppercase tracking-widest mb-2">Our Story</p>
-          <h1 className="text-4xl md:text-5xl font-bold">About LuxeStay</h1>
+          <h1 className="text-4xl md:text-5xl font-bold">About CINNAMON LAKE Hotel</h1>
           <p className="text-blue-200 mt-3 max-w-2xl mx-auto">
             A quarter century of delivering unparalleled luxury, comfort, and world-class hospitality.
           </p>
@@ -57,7 +57,7 @@ const About = () => {
                 25 Years of Luxury Hospitality
               </h2>
               <p className="text-gray-600 leading-relaxed mb-4">
-                Founded in 1999, LuxeStay Hotel has been a beacon of luxury and elegance in the heart of Grand City.
+                Founded in 1999, CINNAMON LAKE Hotel has been a beacon of luxury and elegance in the heart of Grand City.
                 What began as a boutique property with just 20 rooms has grown into a world-renowned destination
                 spanning over 120 meticulously designed suites and rooms.
               </p>
