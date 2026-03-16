@@ -5,7 +5,7 @@ import Modal from '../../components/ui/Modal.jsx';
 import Button from '../../components/ui/Button.jsx';
 import Badge from '../../components/ui/Badge.jsx';
 import toast from 'react-hot-toast';
-import { Plus, Edit2, Trash2, Images, ToggleLeft, ToggleRight } from 'lucide-react';
+import { Plus, Edit2, Trash2, ToggleLeft, ToggleRight, BedDouble, Users } from 'lucide-react';
 
 const AdminRooms = () => {
   const [rooms, setRooms] = useState([]);
@@ -150,58 +150,88 @@ const AdminRooms = () => {
 
       {loading ? (
         <div className="flex justify-center py-16"><Spinner /></div>
+      ) : filtered.length === 0 ? (
+        <div className="text-center py-16 text-gray-400">No rooms found</div>
       ) : (
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-50 border-b border-gray-200">
-                <tr>
-                  {['Room ID', 'Category', 'Max Guests', 'Availability', 'Photos', 'Description', 'Actions'].map((h) => (
-                    <th key={h} className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {filtered.length === 0 ? (
-                  <tr><td colSpan={7} className="text-center py-12 text-gray-400">No rooms found</td></tr>
-                ) : filtered.map((room) => {
-                  const cat = (room.category && typeof room.category === 'object') ? room.category : categories.find((c) => c._id === room.category) || {};
-                  return (
-                    <tr key={room._id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3 font-mono font-bold text-blue-800">#{room.roomID}</td>
-                      <td className="px-4 py-3 text-gray-700">{cat.name || 'N/A'}</td>
-                      <td className="px-4 py-3 text-gray-600">{room.maxGuests}</td>
-                      <td className="px-4 py-3">
-                        <button
-                          onClick={() => handleToggleStatus(room)}
-                          disabled={togglingId === room._id}
-                          className="flex items-center gap-2 group"
-                          title={room.availability ? 'Click to mark as Occupied' : 'Click to mark as Available'}
-                        >
-                          {room.availability ? (
-                            <ToggleRight size={22} className="text-green-500 group-hover:text-green-700 transition-colors" />
-                          ) : (
-                            <ToggleLeft size={22} className="text-gray-400 group-hover:text-gray-600 transition-colors" />
-                          )}
-                          <Badge status={room.availability ? 'available' : 'occupied'} />
-                        </button>
-                      </td>
-                      <td className="px-4 py-3 flex items-center gap-1 text-gray-500">
-                        <Images size={14} /> {room.photos?.length || 0}
-                      </td>
-                      <td className="px-4 py-3 text-gray-500 max-w-[200px] truncate">{room.description || '—'}</td>
-                      <td className="px-4 py-3">
-                        <div className="flex items-center gap-2">
-                          <button onClick={() => openEdit(room)} className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg"><Edit2 size={15} /></button>
-                          <button onClick={() => setDeleteModal({ open: true, room })} className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg"><Trash2 size={15} /></button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          {filtered.map((room) => {
+            const cat   = (room.category && typeof room.category === 'object') ? room.category : categories.find((c) => c._id === room.category) || {};
+            const photo = room.photos?.[0];
+            return (
+              <div key={room._id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col hover:shadow-md transition-shadow">
+
+                {/* Image */}
+                <div className="relative h-44">
+                  {photo ? (
+                    <img src={photo} alt={room.roomID} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full bg-blue-50 flex items-center justify-center text-blue-200">
+                      <BedDouble size={40} />
+                    </div>
+                  )}
+
+                  {/* Room ID */}
+                  <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent px-3 py-2">
+                    <span className="text-white text-xs font-mono font-bold">#{room.roomID}</span>
+                  </div>
+
+                  {/* Photo count badge */}
+                  {room.photos?.length > 1 && (
+                    <span className="absolute top-2 left-2 bg-black/50 text-white text-xs px-2 py-0.5 rounded-full">
+                      +{room.photos.length} photos
+                    </span>
+                  )}
+                </div>
+
+                {/* Body */}
+                <div className="p-4 flex flex-col gap-3 flex-1">
+                  <div>
+                    <p className="font-bold text-gray-900 text-sm">{cat.name || 'Uncategorized'}</p>
+                    {cat.price && (
+                      <p className="text-blue-800 font-semibold text-sm">
+                        ${cat.price.toLocaleString()}<span className="text-gray-400 text-xs font-normal">/night</span>
+                      </p>
+                    )}
+                  </div>
+
+                  <p className="text-xs text-gray-500 line-clamp-2 flex-1">{room.description || '—'}</p>
+
+                  <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                    <Users size={12} />
+                    <span>Max {room.maxGuests} guests</span>
+                  </div>
+
+                  {/* Footer */}
+                  <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+                    {/* Toggle availability */}
+                    <button
+                      onClick={() => handleToggleStatus(room)}
+                      disabled={togglingId === room._id}
+                      title={room.availability ? 'Mark as Occupied' : 'Mark as Available'}
+                      className="flex items-center gap-1.5 group"
+                    >
+                      {room.availability ? (
+                        <ToggleRight size={20} className="text-green-500 group-hover:text-green-700 transition-colors" />
+                      ) : (
+                        <ToggleLeft size={20} className="text-gray-400 group-hover:text-gray-600 transition-colors" />
+                      )}
+                      <Badge status={room.availability ? 'available' : 'occupied'} />
+                    </button>
+
+                    {/* Edit / Delete */}
+                    <div className="flex items-center gap-1">
+                      <button onClick={() => openEdit(room)} className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit">
+                        <Edit2 size={14} />
+                      </button>
+                      <button onClick={() => setDeleteModal({ open: true, room })} className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Delete">
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
 

@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import { formatCurrency, formatDate } from '../../utils/formatDate.js';
 import {
   BedDouble, CalendarDays, Clock, CheckCircle, XCircle, DollarSign, Users,
-  ArrowRight, MessageSquare, Mail, Image, ImagePlay,
+  ArrowRight, MessageSquare, Mail, Image, ImagePlay, UserCheck,
 } from 'lucide-react';
 
 const HOME_KEYS = ['homeHero', 'homeRooms', 'homeCategories', 'homeCta'];
@@ -195,12 +195,17 @@ const StatCard = ({ icon, label, value, color }) => (
 );
 
 const AdminDashboard = () => {
-  const [stats, setStats] = useState(null);
+  const [stats,   setStats]   = useState(null);
+  const [rooms,   setRooms]   = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get('/api/admin/stats').then((res) => {
-      setStats(res.data.data);
+    Promise.all([
+      api.get('/api/admin/stats'),
+      api.get('/api/room/get'),
+    ]).then(([statsRes, roomsRes]) => {
+      setStats(statsRes.data.data);
+      setRooms(roomsRes.data.data || []);
     }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
@@ -262,6 +267,81 @@ const AdminDashboard = () => {
             <ArrowRight size={16} />
           </Link>
         ))}
+      </div>
+
+      {/* Room Management Cards */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+          <div className="flex items-center gap-2">
+            <BedDouble size={18} className="text-blue-800" />
+            <h2 className="text-lg font-bold text-gray-900">Room Management</h2>
+            <span className="text-xs text-gray-400 font-normal">({rooms.length} rooms)</span>
+          </div>
+          <Link to="/admin/rooms" className="text-sm text-blue-800 hover:underline font-medium flex items-center gap-1">
+            View all <ArrowRight size={14} />
+          </Link>
+        </div>
+
+        {rooms.length === 0 ? (
+          <div className="text-center py-10 text-gray-400 text-sm">No rooms found.</div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-6">
+            {rooms.map((room) => {
+              const photo    = room.photos?.[0];
+              const catName  = room.category?.name  || 'Uncategorized';
+              const catPrice = room.category?.price;
+              return (
+                <div key={room._id} className="border border-gray-100 rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+                  {/* Image */}
+                  <div className="relative h-40 bg-gray-100">
+                    {photo ? (
+                      <img
+                        src={photo}
+                        alt={room.roomID}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-300">
+                        <BedDouble size={36} />
+                      </div>
+                    )}
+                    {/* Availability badge */}
+                    <div className="absolute top-2 right-2">
+                      <span className={`text-xs font-bold px-2 py-1 rounded-full ${
+                        room.availability
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-red-100 text-red-600'
+                      }`}>
+                        {room.availability ? 'Available' : 'Unavailable'}
+                      </span>
+                    </div>
+                    {/* Room ID overlay */}
+                    <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/60 to-transparent px-3 py-2">
+                      <p className="text-white text-xs font-mono font-bold">{room.roomID}</p>
+                    </div>
+                  </div>
+
+                  {/* Info */}
+                  <div className="p-3 space-y-1.5">
+                    <p className="font-semibold text-gray-900 text-sm truncate">{catName}</p>
+                    <p className="text-xs text-gray-500 line-clamp-2">{room.description}</p>
+                    <div className="flex items-center justify-between pt-1">
+                      <div className="flex items-center gap-1 text-xs text-gray-500">
+                        <UserCheck size={12} />
+                        <span>Max {room.maxGuests} guests</span>
+                      </div>
+                      {catPrice && (
+                        <span className="text-xs font-bold text-blue-800">
+                          ${catPrice.toLocaleString()}<span className="text-gray-400 font-normal">/night</span>
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Recent Bookings */}
