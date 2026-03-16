@@ -136,7 +136,7 @@ const AdminUsers = () => {
                           onClick={() => toggleStatus(u._id)}
                           disabled={actionLoading === u._id + 'status'}
                           title={u.isActive ? 'Deactivate' : 'Activate'}
-                          className={`p-1.5 rounded-lg transition-colors ${u.isActive ? 'text-green-600 hover:bg-green-50' : 'text-gray-400 hover:bg-gray-100'}`}
+                          className={`p-1.5 rounded-lg transition-colors cursor-pointer ${u.isActive ? 'text-green-600 hover:bg-green-50' : 'text-gray-400 hover:bg-gray-100'}`}
                         >
                           {u.isActive ? <ToggleRight size={18} /> : <ToggleLeft size={18} />}
                         </button>
@@ -144,14 +144,14 @@ const AdminUsers = () => {
                           onClick={() => changeRole(u._id, u.role)}
                           disabled={actionLoading === u._id + 'role'}
                           title={u.role === 'Admin' ? 'Demote to User' : 'Promote to Admin'}
-                          className="p-1.5 text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
+                          className="p-1.5 text-purple-600 hover:bg-purple-50 rounded-lg transition-colors cursor-pointer"
                         >
                           {u.role === 'Admin' ? <User size={16} /> : <ShieldCheck size={16} />}
                         </button>
                         <button
                           onClick={() => setDeleteModal({ open: true, user: u })}
                           title="Delete User"
-                          className="p-1.5 text-red-400 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors"
+                          className="p-1.5 text-red-400 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors cursor-pointer"
                         >
                           <Trash2 size={16} />
                         </button>

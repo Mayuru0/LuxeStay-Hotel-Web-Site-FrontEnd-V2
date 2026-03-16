@@ -108,7 +108,7 @@ const AdminReviews = () => {
       {/* Filters */}
       <div className="flex flex-wrap gap-3 items-center">
         {/* Tab filter */}
-        <div className="flex bg-white border border-gray-200 rounded-lg overflow-hidden text-sm">
+        <div className="flex bg-white border border-gray-200 rounded-lg overflow-hidden text-sm cursor-pointer">
           {[
             { key: 'all', label: `All (${totalCount})` },
             { key: 'pending', label: `Pending (${pendingCount})` },
@@ -117,8 +117,8 @@ const AdminReviews = () => {
             <button
               key={key}
               onClick={() => { setTab(key); setPage(1); }}
-              className={`px-4 py-2 font-medium transition-colors ${
-                tab === key ? 'bg-blue-800 text-white' : 'text-gray-500 hover:bg-gray-50'
+              className={`px-4 py-2 font-medium transition-colors cursor-pointer ${
+                tab === key ? 'bg-blue-800 text-white' : 'text-gray-500 hover:bg-gray-50 cursor-pointer'
               }`}
             >
               {label}
@@ -130,7 +130,7 @@ const AdminReviews = () => {
         <select
           value={ratingFilter}
           onChange={(e) => { setRatingFilter(e.target.value); setPage(1); }}
-          className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 bg-white"
+          className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 bg-white cursor-pointer"
         >
           <option value="all">All Ratings</option>
           {[5, 4, 3, 2, 1].map((r) => (
@@ -211,11 +211,11 @@ const AdminReviews = () => {
                     {/* Status */}
                     <td className="px-4 py-3">
                       {r.isVisible ? (
-                        <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-700 bg-green-100 px-2.5 py-1 rounded-full">
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold text-green-700 bg-green-100 px-2.5 py-1 rounded-full cursor-pointer">
                           <Eye size={11} /> Accepted
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-xs font-semibold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full">
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full cursor-pointer">
                           <EyeOff size={11} /> Pending
                         </span>
                       )}
@@ -229,7 +229,7 @@ const AdminReviews = () => {
                             onClick={() => toggleVisibility(r._id)}
                             disabled={toggling === r._id}
                             title="Hide from homepage"
-                            className="flex items-center gap-1 text-xs font-medium text-red-600 hover:bg-red-50 border border-red-200 px-2.5 py-1.5 rounded-lg transition-colors disabled:opacity-50"
+                            className="flex items-center gap-1 text-xs font-medium text-red-600 hover:bg-red-50 border border-red-200 px-2.5 py-1.5 rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
                           >
                             <XCircle size={13} /> Reject
                           </button>
@@ -238,7 +238,7 @@ const AdminReviews = () => {
                             onClick={() => toggleVisibility(r._id)}
                             disabled={toggling === r._id}
                             title="Show on homepage"
-                            className="flex items-center gap-1 text-xs font-medium text-green-700 hover:bg-green-50 border border-green-200 px-2.5 py-1.5 rounded-lg transition-colors disabled:opacity-50"
+                            className="flex items-center gap-1 text-xs font-medium text-green-700 hover:bg-green-50 border border-green-200 px-2.5 py-1.5 rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
                           >
                             <CheckCircle size={13} /> Accept
                           </button>
@@ -246,7 +246,7 @@ const AdminReviews = () => {
                         <button
                           onClick={() => setDeleteModal({ open: true, review: r })}
                           title="Delete permanently"
-                          className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
                         >
                           <Trash2 size={14} />
                         </button>

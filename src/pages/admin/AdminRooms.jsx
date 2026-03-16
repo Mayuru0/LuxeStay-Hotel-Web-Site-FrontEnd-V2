@@ -163,10 +163,10 @@ const AdminRooms = () => {
           </select>
         </div>
         <div className="flex items-center gap-2">
-          <button onClick={fetchData} className="flex items-center gap-1.5 text-sm text-gray-600 border border-gray-200 px-3 py-2 rounded-lg hover:bg-gray-50 font-medium transition-colors">
+          <button onClick={fetchData} className="flex items-center gap-1.5 text-sm text-gray-600 border border-gray-200 px-3 py-2 rounded-lg hover:bg-gray-50 font-medium transition-colors cursor-pointer">
             <RefreshCw size={14} /> Refresh
           </button>
-          <Button onClick={openAdd} className="flex items-center gap-2">
+          <Button onClick={openAdd} className="flex items-center gap-2 cursor-pointer">
             <Plus size={16} /> Add Room
           </Button>
         </div>
@@ -232,7 +232,7 @@ const AdminRooms = () => {
                       onClick={() => handleToggleStatus(room)}
                       disabled={togglingId === room._id}
                       title={room.availability ? 'Mark as Occupied' : 'Mark as Available'}
-                      className="flex items-center gap-1.5 group"
+                      className="flex items-center gap-1.5 group cursor-pointer"
                     >
                       {room.availability ? (
                         <ToggleRight size={20} className="text-green-500 group-hover:text-green-700 transition-colors" />
@@ -244,10 +244,10 @@ const AdminRooms = () => {
 
                     {/* Edit / Delete */}
                     <div className="flex items-center gap-1">
-                      <button onClick={() => openEdit(room)} className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors" title="Edit">
+                      <button onClick={() => openEdit(room)} className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer" title="Edit">
                         <Edit2 size={14} />
                       </button>
-                      <button onClick={() => setDeleteModal({ open: true, room })} className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Delete">
+                      <button onClick={() => setDeleteModal({ open: true, room })} className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer" title="Delete">
                         <Trash2 size={14} />
                       </button>
                     </div>
@@ -265,17 +265,17 @@ const AdminRooms = () => {
           <p className="text-xs text-gray-500">Page {page} of {totalPages} ({filtered.length} rooms)</p>
           <div className="flex items-center gap-1">
             <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
-              className="p-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition-colors bg-white">
+              className="p-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors bg-white cursor-pointer">
               <ChevronLeft size={14} />
             </button>
             {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
               <button key={n} onClick={() => setPage(n)}
-                className={`w-8 h-8 rounded-lg text-xs font-medium transition-colors ${n === page ? 'bg-blue-800 text-white' : 'bg-white border border-gray-200 hover:bg-gray-50 text-gray-600'}`}>
+                className={`w-8 h-8 rounded-lg text-xs font-medium transition-colors cursor-pointer ${n === page ? 'bg-blue-800 text-white' : 'bg-white border border-gray-200 hover:bg-gray-50 text-gray-600'}`}>
                 {n}
               </button>
             ))}
             <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}
-              className="p-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition-colors bg-white">
+              className="p-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors bg-white cursor-pointer">
               <ChevronRight size={14} />
             </button>
           </div>
@@ -288,29 +288,29 @@ const AdminRooms = () => {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
             <select value={form.category} onChange={(e) => setForm((p) => ({ ...p, category: e.target.value }))}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800">
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 cursor-pointer">
               <option value="">Select Category</option>
-              {categories.map((c) => <option key={c._id} value={c._id}>{c.name} — ${c.price}/night</option>)}
+              {categories.map((c) => <option key={c._id} value={c._id} className="cursor-pointer">{c.name} — ${c.price}/night</option>)}
             </select>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Max Guests</label>
             <input type="number" min={1} max={20} value={form.maxGuests} onChange={(e) => setForm((p) => ({ ...p, maxGuests: Number(e.target.value) }))}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800" />
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 cursor-pointer" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
             <textarea rows={3} value={form.description} onChange={(e) => setForm((p) => ({ ...p, description: e.target.value }))}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 resize-none" />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 cursor-pointer">
             <input type="checkbox" id="avail" checked={form.availability} onChange={(e) => setForm((p) => ({ ...p, availability: e.target.checked }))} className="rounded" />
-            <label htmlFor="avail" className="text-sm font-medium text-gray-700">Available</label>
+            <label htmlFor="avail" className="text-sm font-medium text-gray-700 cursor-pointer">Available</label>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Photos (upload multiple)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1 cursor-pointer">Photos (upload multiple)</label>
             <input type="file" accept="image/*" multiple onChange={handlePhotoUpload}
-              className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2" />
+              className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 cursor-pointer" />
             {form.photos.length > 0 && (
               <div className="mt-3 space-y-2">
                 {form.photos.map((photo, i) => (
@@ -324,15 +324,15 @@ const AdminRooms = () => {
                     </div>
                     <div className="flex items-center gap-1 flex-shrink-0">
                       <button type="button" onClick={() => movePhoto(i, -1)} disabled={i === 0}
-                        className="p-1 rounded hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Move left">
+                        className="p-1 rounded hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer" title="Move left">
                         <ChevronLeft size={14} />
                       </button>
                       <button type="button" onClick={() => movePhoto(i, 1)} disabled={i === form.photos.length - 1}
-                        className="p-1 rounded hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors" title="Move right">
+                        className="p-1 rounded hover:bg-gray-200 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer" title="Move right">
                         <ChevronRight size={14} />
                       </button>
                       <button type="button" onClick={() => removePhoto(i)}
-                        className="p-1 rounded hover:bg-red-100 text-red-500 transition-colors" title="Remove photo">
+                        className="p-1 rounded hover:bg-red-100 text-red-500 transition-colors cursor-pointer" title="Remove photo">
                         <X size={14} />
                       </button>
                     </div>
@@ -341,9 +341,9 @@ const AdminRooms = () => {
               </div>
             )}
           </div>
-          <div className="flex justify-end gap-3 pt-2">
-            <Button variant="secondary" onClick={() => setModal({ open: false, room: null })}>Cancel</Button>
-            <Button onClick={handleSave} loading={saving}>{modal.room ? 'Update' : 'Create'} Room</Button>
+          <div className="flex justify-end gap-3 pt-2 cursor-pointer">
+            <Button className='cursor-pointer' variant="secondary" onClick={() => setModal({ open: false, room: null })}>Cancel</Button>
+            <Button className='cursor-pointer' onClick={handleSave} loading={saving}>{modal.room ? 'Update' : 'Create'} Room</Button>
           </div>
         </div>
       </Modal>

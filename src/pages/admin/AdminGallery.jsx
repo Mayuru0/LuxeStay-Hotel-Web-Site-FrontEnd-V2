@@ -109,10 +109,10 @@ const AdminGallery = () => {
   return (
     <div className="space-y-5">
       <div className="flex justify-end gap-2">
-        <button onClick={fetchItems} className="flex items-center gap-1.5 text-sm text-gray-600 border border-gray-200 px-3 py-2 rounded-lg hover:bg-gray-50 font-medium transition-colors">
+        <button onClick={fetchItems} className="flex items-center gap-1.5 text-sm text-gray-600 border border-gray-200 px-3 py-2 rounded-lg hover:bg-gray-50 font-medium transition-colors cursor-pointer">
           <RefreshCw size={14} /> Refresh
         </button>
-        <Button onClick={() => setUploadModal(true)} className="flex items-center gap-2">
+        <Button onClick={() => setUploadModal(true)} className="flex items-center gap-2 cursor-pointer">
           <Upload size={16} /> Upload Image
         </Button>
       </div>
@@ -147,7 +147,7 @@ const AdminGallery = () => {
               <button
                 onClick={() => handleToggleFeatured(item)}
                 title={item.isFeatured ? 'Remove from featured' : 'Add to featured'}
-                className={`absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 shadow ${
+                className={`absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center transition-all duration-200 shadow cursor-pointer ${
                   item.isFeatured
                     ? 'bg-amber-500 text-white hover:bg-amber-600'
                     : 'bg-white/80 text-gray-400 hover:text-amber-500 opacity-0 group-hover:opacity-100'
@@ -160,14 +160,14 @@ const AdminGallery = () => {
               <div className="absolute bottom-2 right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                   onClick={() => openEdit(item)}
-                  className="bg-blue-600 text-white p-1.5 rounded-full hover:bg-blue-700"
+                  className="bg-blue-600 text-white p-1.5 rounded-full hover:bg-blue-700 cursor-pointer"
                   title="Edit"
                 >
                   <Pencil size={12} />
                 </button>
                 <button
                   onClick={() => setDeleteModal({ open: true, item })}
-                  className="bg-red-600 text-white p-1.5 rounded-full hover:bg-red-700"
+                  className="bg-red-600 text-white p-1.5 rounded-full hover:bg-red-700 cursor-pointer"
                   title="Delete"
                 >
                   <Trash2 size={12} />
@@ -186,17 +186,17 @@ const AdminGallery = () => {
             <p className="text-xs text-gray-500">Page {page} of {Math.ceil(items.length / PAGE_SIZE)} ({items.length} images)</p>
             <div className="flex items-center gap-1">
               <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
-                className="p-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition-colors bg-white">
+                className="p-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors bg-white cursor-pointer">
                 <ChevronLeft size={14} />
               </button>
               {Array.from({ length: Math.ceil(items.length / PAGE_SIZE) }, (_, i) => i + 1).map(n => (
                 <button key={n} onClick={() => setPage(n)}
-                  className={`w-8 h-8 rounded-lg text-xs font-medium transition-colors ${n === page ? 'bg-blue-800 text-white' : 'bg-white border border-gray-200 hover:bg-gray-50 text-gray-600'}`}>
+                  className={`w-8 h-8 rounded-lg text-xs font-medium transition-colors cursor-pointer ${n === page ? 'bg-blue-800 text-white' : 'bg-white border border-gray-200 hover:bg-gray-50 text-gray-600'}`}>
                   {n}
                 </button>
               ))}
               <button onClick={() => setPage(p => Math.min(Math.ceil(items.length / PAGE_SIZE), p + 1))} disabled={page === Math.ceil(items.length / PAGE_SIZE)}
-                className="p-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition-colors bg-white">
+                className="p-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors bg-white cursor-pointer">
                 <ChevronRight size={14} />
               </button>
             </div>
@@ -223,14 +223,14 @@ const AdminGallery = () => {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Image <span className="text-red-500">*</span></label>
             <input type="file" accept="image/*" onChange={handleImageChange}
-              className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2" />
+              className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 cursor-pointer" />
             {form.image && (
-              <img src={URL.createObjectURL(form.image)} alt="" className="mt-2 w-full h-32 object-cover rounded-lg" />
+              <img src={URL.createObjectURL(form.image)} alt="" className="mt-2 w-full h-32 object-cover rounded-lg cursor-pointer" />
             )}
           </div>
           <div className="flex justify-end gap-3 pt-2">
-            <Button variant="secondary" onClick={() => setUploadModal(false)}>Cancel</Button>
-            <Button onClick={handleUpload} loading={saving}>Upload</Button>
+            <Button className='cursor-pointer' variant="secondary" onClick={() => setUploadModal(false)}>Cancel</Button>
+            <Button className='cursor-pointer' onClick={handleUpload} loading={saving}>Upload</Button>
           </div>
         </div>
       </Modal>
@@ -256,14 +256,14 @@ const AdminGallery = () => {
               <img src={editModal.item.image} alt="" className="mb-2 w-full h-32 object-cover rounded-lg border" />
             )}
             <input type="file" accept="image/*" onChange={(e) => setEditForm((p) => ({ ...p, image: e.target.files[0] }))}
-              className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2" />
+              className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 cursor-pointer" />
             {editForm.image && (
-              <img src={URL.createObjectURL(editForm.image)} alt="" className="mt-2 w-full h-32 object-cover rounded-lg" />
+              <img src={URL.createObjectURL(editForm.image)} alt="" className="mt-2 w-full h-32 object-cover rounded-lg cursor-pointer" />
             )}
           </div>
           <div className="flex justify-end gap-3 pt-2">
-            <Button variant="secondary" onClick={() => setEditModal({ open: false, item: null })}>Cancel</Button>
-            <Button onClick={handleUpdate} loading={saving}>Update</Button>
+            <Button className='cursor-pointer' variant="secondary" onClick={() => setEditModal({ open: false, item: null })}>Cancel</Button>
+            <Button className='cursor-pointer' onClick={handleUpdate} loading={saving}>Update</Button>
           </div>
         </div>
       </Modal>

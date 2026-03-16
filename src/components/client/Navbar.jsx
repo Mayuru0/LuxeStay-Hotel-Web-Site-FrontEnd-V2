@@ -45,7 +45,7 @@ const Navbar = () => {
   const logoColor = 'text-white';
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+    <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 cursor-pointer ${
       forceDark ? 'bg-gray-900 shadow-md' : scrolled ? 'bg-black/30 backdrop-blur-md shadow-sm' : 'bg-transparent'
     }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -76,7 +76,7 @@ const Navbar = () => {
                 <div className="relative">
                   <button
                     onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg transition-colors hover:bg-white/15"
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg transition-colors hover:bg-white/15 cursor-pointer"
                   >
                     <img
                       src={
@@ -121,7 +121,7 @@ const Navbar = () => {
                       <hr className="my-1 border-gray-100" />
                       <button
                         onClick={handleLogout}
-                        className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                        className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
                       >
                         <LogOut size={14} /> Logout
                       </button>

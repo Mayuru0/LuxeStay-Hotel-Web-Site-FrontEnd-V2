@@ -82,7 +82,7 @@ const ReviewsCarousel = ({ reviews }) => {
       )}&background=1e40af&color=fff&size=64`;
 
     return (
-      <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 flex flex-col gap-5 h-full">
+      <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 flex flex-col gap-5 h-full cursor-pointer">
         {/* Top: quote + stars */}
         <div className="flex items-start justify-between">
           <div className="w-12 h-12 rounded-2xl bg-amber-50 flex items-center justify-center shrink-0">
@@ -166,7 +166,7 @@ const ReviewsCarousel = ({ reviews }) => {
             {/* Prev */}
             <button
               onClick={() => goTo(active - 1, 'left')}
-              className="w-11 h-11 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-500 hover:text-amber-600 hover:border-amber-300 hover:shadow-amber-100/60 transition-all duration-200 hover:scale-110"
+              className="w-11 h-11 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-500 hover:text-amber-600 hover:border-amber-300 hover:shadow-amber-100/60 transition-all duration-200 hover:scale-110 cursor-pointer"
             >
               <ChevronLeft size={20} />
             </button>
@@ -177,7 +177,7 @@ const ReviewsCarousel = ({ reviews }) => {
                 <button
                   key={i}
                   onClick={() => goTo(i, i > active ? 'right' : 'left')}
-                  className={`rounded-full transition-all duration-300 ${
+                  className={`rounded-full transition-all duration-300 cursor-pointer ${
                     i === active
                       ? 'w-8 h-2.5 bg-amber-500'
                       : 'w-2.5 h-2.5 bg-gray-200 hover:bg-amber-300'
@@ -189,7 +189,7 @@ const ReviewsCarousel = ({ reviews }) => {
             {/* Next */}
             <button
               onClick={() => goTo(active + 1, 'right')}
-              className="w-11 h-11 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-500 hover:text-amber-600 hover:border-amber-300 hover:shadow-amber-100/60 transition-all duration-200 hover:scale-110"
+              className="w-11 h-11 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-500 hover:text-amber-600 hover:border-amber-300 hover:shadow-amber-100/60 transition-all duration-200 hover:scale-110 cursor-pointer"
             >
               <ChevronRight size={20} />
             </button>

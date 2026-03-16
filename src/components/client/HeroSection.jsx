@@ -71,7 +71,7 @@ const HeroSection = ({ bgImage }) => {
                 value={checkIn}
                 min={today}
                 onChange={(e) => setCheckIn(e.target.value)}
-                className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-transparent transition-shadow"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-transparent transition-shadow cursor-pointer"
               />
             </div>
 
@@ -84,7 +84,7 @@ const HeroSection = ({ bgImage }) => {
                 value={checkOut}
                 min={checkIn || today}
                 onChange={(e) => setCheckOut(e.target.value)}
-                className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-transparent transition-shadow"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-transparent transition-shadow cursor-pointer"
               />
             </div>
 
@@ -104,7 +104,7 @@ const HeroSection = ({ bgImage }) => {
 
             <button
               onClick={handleSearch}
-              className="btn-gradient flex items-center justify-center gap-2 text-white font-bold py-2.5 px-6 rounded-lg text-sm h-[42px]"
+              className="btn-gradient flex items-center justify-center gap-2 text-white font-bold py-2.5 px-6 rounded-lg text-sm h-[42px] cursor-pointer"
             >
               <Search size={16} /> Search Rooms
             </button>

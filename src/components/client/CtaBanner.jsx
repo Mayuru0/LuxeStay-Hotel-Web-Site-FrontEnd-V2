@@ -31,7 +31,7 @@ const CtaBanner = ({ bgImage }) => {
           </p>
           <button
             onClick={() => navigate('/rooms')}
-            className="btn-amber-glow pulse-gold bg-amber-600 hover:bg-amber-500 text-white font-bold px-12 py-4 rounded-xl text-lg shadow-xl"
+            className="btn-amber-glow pulse-gold bg-amber-600 hover:bg-amber-500 text-white font-bold px-12 py-4 rounded-xl text-lg shadow-xl cursor-pointer"
           >
             Book Your Stay
           </button>

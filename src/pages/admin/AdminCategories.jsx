@@ -115,10 +115,10 @@ const AdminCategories = () => {
   return (
     <div className="space-y-5">
       <div className="flex justify-end gap-2">
-        <button onClick={fetchCategories} className="flex items-center gap-1.5 text-sm text-gray-600 border border-gray-200 px-3 py-2 rounded-lg hover:bg-gray-50 font-medium transition-colors">
+        <button onClick={fetchCategories} className="flex items-center gap-1.5 text-sm text-gray-600 border border-gray-200 px-3 py-2 rounded-lg hover:bg-gray-50 font-medium transition-colors cursor-pointer">
           <RefreshCw size={14} /> Refresh
         </button>
-        <Button onClick={openAdd} className="flex items-center gap-2">
+        <Button onClick={openAdd} className="flex items-center gap-2 cursor-pointer">
           <Plus size={16} /> Add Category
         </Button>
       </div>
@@ -144,7 +144,7 @@ const AdminCategories = () => {
                   onClick={() => handleToggleFeatured(cat)}
                   disabled={togglingId === cat._id}
                   title={cat.isFeatured ? 'Remove from Home' : 'Feature on Home'}
-                  className={`absolute top-2 right-2 p-1.5 rounded-full shadow transition-colors ${
+                  className={`absolute top-2 right-2 p-1.5 rounded-full shadow transition-colors cursor-pointer ${
                     cat.isFeatured ? 'bg-amber-400 text-white hover:bg-amber-500' : 'bg-white/80 text-gray-400 hover:bg-amber-50 hover:text-amber-500'
                   }`}
                 >
@@ -170,10 +170,10 @@ const AdminCategories = () => {
                   </div>
                 )}
                 <div className="flex gap-2 pt-3 border-t border-gray-100">
-                  <button onClick={() => openEdit(cat)} className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-sm text-blue-700 hover:bg-blue-50 rounded-lg border border-blue-200 transition-colors">
+                  <button onClick={() => openEdit(cat)} className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-sm text-blue-700 hover:bg-blue-50 rounded-lg border border-blue-200 transition-colors cursor-pointer">
                     <Edit2 size={14} /> Edit
                   </button>
-                  <button onClick={() => setDeleteModal({ open: true, cat })} className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-lg border border-red-200 transition-colors">
+                  <button onClick={() => setDeleteModal({ open: true, cat })} className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-lg border border-red-200 transition-colors cursor-pointer">
                     <Trash2 size={14} /> Delete
                   </button>
                 </div>
@@ -186,17 +186,17 @@ const AdminCategories = () => {
             <p className="text-xs text-gray-500">Page {page} of {Math.ceil(categories.length / PAGE_SIZE)} ({categories.length} categories)</p>
             <div className="flex items-center gap-1">
               <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
-                className="p-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition-colors bg-white">
+                className="p-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors bg-white cursor-pointer">
                 <ChevronLeft size={14} />
               </button>
               {Array.from({ length: Math.ceil(categories.length / PAGE_SIZE) }, (_, i) => i + 1).map(n => (
                 <button key={n} onClick={() => setPage(n)}
-                  className={`w-8 h-8 rounded-lg text-xs font-medium transition-colors ${n === page ? 'bg-blue-800 text-white' : 'bg-white border border-gray-200 hover:bg-gray-50 text-gray-600'}`}>
+                  className={`w-8 h-8 rounded-lg text-xs font-medium transition-colors cursor-pointer ${n === page ? 'bg-blue-800 text-white' : 'bg-white border border-gray-200 hover:bg-gray-50 text-gray-600'}`}>
                   {n}
                 </button>
               ))}
               <button onClick={() => setPage(p => Math.min(Math.ceil(categories.length / PAGE_SIZE), p + 1))} disabled={page === Math.ceil(categories.length / PAGE_SIZE)}
-                className="p-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 transition-colors bg-white">
+                className="p-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors bg-white cursor-pointer">
                 <ChevronRight size={14} />
               </button>
             </div>
@@ -232,13 +232,13 @@ const AdminCategories = () => {
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Category Image</label>
-            <input type="file" accept="image/*" onChange={handleImageUpload} className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2" />
+            <label className="block text-sm font-medium text-gray-700 mb-1 cursor-pointer">Category Image</label>
+            <input type="file" accept="image/*" onChange={handleImageUpload} className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 cursor-pointer" />
             {form.image && <img src={form.image} alt="" className="mt-2 w-full h-28 object-cover rounded-lg" />}
           </div>
           <div className="flex justify-end gap-3 pt-2">
-            <Button variant="secondary" onClick={() => setModal({ open: false, cat: null })}>Cancel</Button>
-            <Button onClick={handleSave} loading={saving}>{modal.cat ? 'Update' : 'Create'}</Button>
+            <Button className='cursor-pointer' variant="secondary" onClick={() => setModal({ open: false, cat: null })}>Cancel</Button>
+            <Button className='cursor-pointer' onClick={handleSave} loading={saving}>{modal.cat ? 'Update' : 'Create'}</Button>
           </div>
         </div>
       </Modal>
@@ -248,8 +248,8 @@ const AdminCategories = () => {
         <div className="space-y-4">
           <p className="text-gray-600">Are you sure you want to delete <span className="font-bold">{deleteModal.cat?.name}</span>? Rooms using this category may be affected.</p>
           <div className="flex gap-3 justify-end">
-            <Button variant="secondary" onClick={() => setDeleteModal({ open: false, cat: null })}>Cancel</Button>
-            <Button variant="danger" onClick={handleDelete} loading={deleting}>Delete</Button>
+            <Button className='cursor-pointer' variant="secondary" onClick={() => setDeleteModal({ open: false, cat: null })}>Cancel</Button>
+            <Button className='cursor-pointer' variant="danger" onClick={handleDelete} loading={deleting}>Delete</Button>
           </div>
         </div>
       </Modal>

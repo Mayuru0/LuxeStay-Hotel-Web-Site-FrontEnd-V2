@@ -149,7 +149,7 @@ const DestinationsCarousel = () => {
                     )}
                     <button
                       onClick={() => navigate('/rooms')}
-                      className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200 hover:-translate-y-0.5 shadow-lg hover:shadow-amber-500/30"
+                      className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-500 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200 hover:-translate-y-0.5 shadow-lg hover:shadow-amber-500/30 cursor-pointer"
                     >
                       Book This Experience <ArrowRight size={16} />
                     </button>
@@ -161,13 +161,13 @@ const DestinationsCarousel = () => {
             {/* Prev / Next arrows */}
             <button
               onClick={() => goTo(active - 1)}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/15 hover:bg-white/30 backdrop-blur text-white flex items-center justify-center transition-all duration-200 hover:scale-110 border border-white/20"
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/15 hover:bg-white/30 backdrop-blur text-white flex items-center justify-center transition-all duration-200 hover:scale-110 border border-white/20 cursor-pointer"
             >
               <ChevronLeft size={20} />
             </button>
             <button
               onClick={() => goTo(active + 1)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/15 hover:bg-white/30 backdrop-blur text-white flex items-center justify-center transition-all duration-200 hover:scale-110 border border-white/20"
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/15 hover:bg-white/30 backdrop-blur text-white flex items-center justify-center transition-all duration-200 hover:scale-110 border border-white/20 cursor-pointer"
             >
               <ChevronRight size={20} />
             </button>
@@ -184,7 +184,7 @@ const DestinationsCarousel = () => {
               <button
                 key={dest._id}
                 onClick={() => goTo(i)}
-                className={`relative overflow-hidden rounded-xl transition-all duration-300 ${
+                className={`relative overflow-hidden rounded-xl transition-all duration-300 cursor-pointer ${
                   i === active
                     ? 'w-20 h-14 ring-2 ring-amber-500 ring-offset-2 ring-offset-gray-950'
                     : 'w-12 h-10 opacity-50 hover:opacity-80'
@@ -201,7 +201,7 @@ const DestinationsCarousel = () => {
               <button
                 key={i}
                 onClick={() => goTo(i)}
-                className={`rounded-full transition-all duration-300 ${
+                className={`rounded-full transition-all duration-300 cursor-pointer ${
                   i === active
                     ? 'w-6 h-2 bg-amber-500'
                     : 'w-2 h-2 bg-gray-600 hover:bg-gray-400'

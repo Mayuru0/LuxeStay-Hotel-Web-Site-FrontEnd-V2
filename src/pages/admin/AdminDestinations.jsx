@@ -173,7 +173,7 @@ const AdminDestinations = () => {
           </button>
           <button
             onClick={openAdd}
-            className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-blue-800 hover:bg-blue-900 text-white transition-colors"
+            className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-blue-800 hover:bg-blue-900 text-white transition-colors cursor-pointer"
           >
             <Plus size={16} /> Add Destination
           </button>
@@ -226,7 +226,7 @@ const AdminDestinations = () => {
                 {/* Star toggle button */}
                 <button
                   onClick={() => handleToggleFeatured(dest)}
-                  className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 shadow ${
+                  className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 shadow cursor-pointer ${
                     dest.isFeatured
                       ? 'bg-amber-500 text-white hover:bg-amber-600'
                       : 'bg-white/80 text-gray-400 hover:bg-amber-50 hover:text-amber-500 opacity-0 group-hover:opacity-100'
@@ -252,7 +252,7 @@ const AdminDestinations = () => {
                 <div className="flex items-center gap-2 mt-4">
                   <button
                     onClick={() => handleToggleFeatured(dest)}
-                    className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                    className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
                       dest.isFeatured
                         ? 'text-amber-700 bg-amber-50 hover:bg-amber-100'
                         : 'text-gray-500 bg-gray-50 hover:bg-amber-50 hover:text-amber-600'
@@ -263,13 +263,13 @@ const AdminDestinations = () => {
                   </button>
                   <button
                     onClick={() => openEdit(dest)}
-                    className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 transition-colors"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 transition-colors cursor-pointer"
                   >
                     <Pencil size={13} /> Edit
                   </button>
                   <button
                     onClick={() => setDeleteId(dest._id)}
-                    className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 transition-colors"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-semibold text-red-600 bg-red-50 hover:bg-red-100 transition-colors cursor-pointer"
                   >
                     <Trash2 size={13} /> Delete
                   </button>
@@ -357,7 +357,7 @@ const AdminDestinations = () => {
               <button
                 type="button"
                 onClick={() => { setTab('file'); setPreview(''); setFile(null); }}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 transition-colors ${
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 transition-colors cursor-pointer ${
                   tab === 'file' ? 'bg-blue-800 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'
                 }`}
               >
@@ -366,7 +366,7 @@ const AdminDestinations = () => {
               <button
                 type="button"
                 onClick={() => { setTab('url'); setFile(null); if (fileInputRef.current) fileInputRef.current.value = ''; }}
-                className={`flex-1 flex items-center justify-center gap-2 py-2.5 transition-colors ${
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 transition-colors cursor-pointer ${
                   tab === 'url' ? 'bg-blue-800 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'
                 }`}
               >
@@ -418,14 +418,14 @@ const AdminDestinations = () => {
           <div className="flex justify-end gap-3 pt-1">
             <button
               onClick={closeModal}
-              className="px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
+              className="px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               onClick={handleSave}
               disabled={saving}
-              className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-blue-800 hover:bg-blue-900 text-white transition-colors disabled:opacity-60"
+              className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-blue-800 hover:bg-blue-900 text-white transition-colors disabled:opacity-60 cursor-pointer"
             >
               {saving ? <Spinner size="sm" /> : null}
               {saving ? 'Saving…' : modal.editing ? 'Save Changes' : 'Add Destination'}
@@ -443,14 +443,14 @@ const AdminDestinations = () => {
           <div className="flex justify-end gap-3">
             <button
               onClick={() => setDeleteId(null)}
-              className="px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
+              className="px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               onClick={handleDelete}
               disabled={deleting}
-              className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-red-600 hover:bg-red-700 text-white transition-colors disabled:opacity-60"
+              className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-red-600 hover:bg-red-700 text-white transition-colors disabled:opacity-60 cursor-pointer"
             >
               {deleting ? <Spinner size="sm" /> : <Trash2 size={14} />}
               {deleting ? 'Deleting…' : 'Delete'}

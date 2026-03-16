@@ -123,17 +123,17 @@ const AdminBookings = () => {
         <select
           value={statusFilter}
           onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
-          className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800"
+          className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 cursor-pointer"
         >
-          <option value="all">All Statuses</option>
-          <option value="pending">Pending</option>
-          <option value="confirmed">Confirmed</option>
-          <option value="cancelled">Cancelled</option>
+          <option value="all" className="cursor-pointer">All Statuses</option>
+          <option value="pending" className="cursor-pointer">Pending</option>
+          <option value="confirmed" className="cursor-pointer">Confirmed</option>
+          <option value="cancelled" className="cursor-pointer">Cancelled</option>
         </select>
-        <button onClick={fetchBookings} className="flex items-center gap-1.5 text-sm text-gray-600 border border-gray-200 px-3 py-2 rounded-lg hover:bg-gray-50 font-medium transition-colors">
+        <button onClick={fetchBookings} className="flex items-center gap-1.5 text-sm text-gray-600 border border-gray-200 px-3 py-2 rounded-lg hover:bg-gray-50 font-medium transition-colors cursor-pointer">
           <RefreshCw size={14} /> Refresh
         </button>
-        <button onClick={exportCSV} className="flex items-center gap-2 text-sm text-gray-600 border border-gray-200 px-4 py-2 rounded-lg hover:bg-gray-50">
+        <button onClick={exportCSV} className="flex items-center gap-2 text-sm text-gray-600 border border-gray-200 px-4 py-2 rounded-lg hover:bg-gray-50 cursor-pointer">
           <Download size={14} /> Export CSV
         </button>
       </div>
@@ -202,14 +202,14 @@ const AdminBookings = () => {
                               <button
                                 onClick={() => setConfirmModal({ open: true, booking: b })}
                                 disabled={actionLoading}
-                                className="p-1.5 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                                className="p-1.5 text-green-600 hover:bg-green-50 rounded-lg transition-colors cursor-pointer"
                                 title="Confirm"
                               >
                                 <CheckCircle size={16} />
                               </button>
                               <button
                                 onClick={() => setCancelModal({ open: true, booking: b, reason: '' })}
-                                className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
                                 title="Cancel"
                               >
                                 <XCircle size={16} />
@@ -218,7 +218,7 @@ const AdminBookings = () => {
                           )}
                           <button
                             onClick={() => setDeleteModal({ open: true, booking: b })}
-                            className="p-1.5 text-red-400 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors"
+                            className="p-1.5 text-red-400 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors cursor-pointer"
                             title="Delete"
                           >
                             <Trash2 size={15} />
@@ -241,11 +241,11 @@ const AdminBookings = () => {
             </span>
             <div className="flex gap-2">
               <button disabled={page === 1} onClick={() => setPage(p => p - 1)}
-                className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-50 hover:bg-gray-50">
+                className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 cursor-pointer">
                 Previous
               </button>
               <button disabled={page === totalPages} onClick={() => setPage(p => p + 1)}
-                className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-50 hover:bg-gray-50">
+                className="px-3 py-1.5 text-sm border border-gray-200 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 cursor-pointer">
                 Next
               </button>
             </div>

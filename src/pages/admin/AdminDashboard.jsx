@@ -46,17 +46,17 @@ const ImagePickerCard = ({ pageKey, label, imgUrl, bgImages, onChange }) => (
       <select
         value={imgUrl}
         onChange={(e) => onChange(pageKey, e.target.value)}
-        className="w-full border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-800 bg-white"
+        className="w-full border border-gray-200 rounded-lg px-2 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-blue-800 bg-white cursor-pointer"
       >
-        <option value="">— Select Image —</option>
+        <option value="" className='cursor-pointer'>— Select Image —</option>
         {bgImages.map((img) => (
-          <option key={img._id} value={img.imageUrl}>{img.name}</option>
+          <option key={img._id} value={img.imageUrl} className='cursor-pointer'>{img.name}</option>
         ))}
       </select>
       {imgUrl && (
         <button
           onClick={() => onChange(pageKey, '')}
-          className="w-full text-xs text-red-500 hover:text-red-700 transition-colors"
+          className="w-full text-xs text-red-500 hover:text-red-700 transition-colors cursor-pointer"
         >
           Remove
         </button>
@@ -124,7 +124,7 @@ const PageHeroSettings = () => {
           <button
             onClick={handleSave}
             disabled={saving || loading}
-            className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold transition-colors disabled:opacity-60 ${
+            className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold transition-colors disabled:opacity-60 cursor-pointer ${
               saving ? 'bg-green-600 text-white' : 'bg-blue-800 hover:bg-blue-900 text-white'
             }`}
           >
@@ -204,19 +204,19 @@ const Pagination = ({ page, totalPages, onPage }) => {
       <p className="text-xs text-gray-500">Page {page} of {totalPages}</p>
       <div className="flex items-center gap-1">
         <button onClick={() => onPage(p => Math.max(1, p - 1))} disabled={page === 1}
-          className="p-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+          className="p-1.5 rounded-lg border cursor-pointer border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
           <ChevronLeft size={14} />
         </button>
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
           <button key={n} onClick={() => onPage(n)}
-            className={`w-7 h-7 rounded-lg text-xs font-medium transition-colors ${
+            className={`w-7 h-7 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
               n === page ? 'bg-blue-800 text-white' : 'border border-gray-200 hover:bg-gray-50 text-gray-700'
             }`}>
             {n}
           </button>
         ))}
         <button onClick={() => onPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}
-          className="p-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+          className="p-1.5 rounded-lg border cursor-pointer border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
           <ChevronRight size={14} />
         </button>
       </div>

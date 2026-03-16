@@ -44,7 +44,7 @@ const FeaturedRoomsSection = ({ rooms, loading, bgImage }) => {
         <div className="text-center mt-12 reveal">
           <button
             onClick={() => navigate('/rooms')}
-            className="btn-gradient inline-flex items-center gap-2 text-white font-semibold px-8 py-3.5 rounded-xl shadow-lg"
+            className="btn-gradient inline-flex items-center gap-2 text-white font-semibold px-8 py-3.5 rounded-xl shadow-lg cursor-pointer"
           >
             View All Rooms <ArrowRight size={18} />
           </button>

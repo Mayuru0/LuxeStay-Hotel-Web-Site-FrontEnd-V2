@@ -22,7 +22,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
       aria-modal="true"
     >
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"
         onClick={onClose}
       />
       <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col z-10">
@@ -30,7 +30,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
           <h2 className="text-lg font-bold text-gray-900">{title}</h2>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-colors"
+            className="p-1 rounded-lg text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-colors cursor-pointer"
           >
             <X size={20} />
           </button>

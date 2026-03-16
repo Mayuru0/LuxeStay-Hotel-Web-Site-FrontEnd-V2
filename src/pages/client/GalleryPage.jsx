@@ -83,11 +83,11 @@ const GalleryPage = () => {
       {/* Lightbox */}
       {lightbox && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4 cursor-pointer"
           onClick={() => setLightbox(null)}
         >
           <button
-            className="absolute top-4 right-4 text-white bg-white/20 hover:bg-white/30 rounded-full p-2"
+            className="absolute top-4 right-4 text-white bg-white/20 hover:bg-white/30 rounded-full p-2 cursor-pointer"
             onClick={() => setLightbox(null)}
           >
             <X size={24} />

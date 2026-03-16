@@ -112,7 +112,7 @@ const AdminContacts = () => {
           )}
           <button
             onClick={fetchMessages}
-            className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-800 bg-white border border-gray-200 px-3 py-2 rounded-lg font-medium transition-colors"
+            className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-800 bg-white border border-gray-200 px-3 py-2 rounded-lg font-medium transition-colors cursor-pointer"
           >
             <RefreshCw size={15} /> Refresh
           </button>
@@ -126,7 +126,7 @@ const AdminContacts = () => {
             <button
               key={f}
               onClick={() => { setFilter(f); setPage(1); }}
-              className={`px-4 py-2 font-medium capitalize transition-colors ${
+              className={`px-4 py-2 font-medium capitalize transition-colors cursor-pointer ${
                 filter === f ? 'bg-blue-800 text-white' : 'text-gray-500 hover:bg-gray-50'
               }`}
             >
@@ -200,7 +200,7 @@ const AdminContacts = () => {
                   </span>
                   <button
                     onClick={() => handleView(msg)}
-                    className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg"
+                    className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg cursor-pointer"
                     title="View"
                   >
                     <Eye size={15} />
@@ -208,7 +208,7 @@ const AdminContacts = () => {
                   <button
                     onClick={() => handleDelete(msg._id)}
                     disabled={deleting === msg._id}
-                    className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg disabled:opacity-40"
+                    className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg disabled:opacity-40 cursor-pointer"
                     title="Delete"
                   >
                     {deleting === msg._id ? <RefreshCw size={15} className="animate-spin" /> : <Trash2 size={15} />}

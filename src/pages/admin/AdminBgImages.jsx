@@ -160,7 +160,7 @@ const AdminBgImages = () => {
         </div>
         <button
           onClick={() => setAddOpen(true)}
-          className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-amber-600 hover:bg-amber-700 text-white transition-colors"
+          className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-amber-600 hover:bg-amber-700 text-white transition-colors cursor-pointer"
         >
           <Plus size={16} /> Add Image
         </button>
@@ -195,7 +195,7 @@ const AdminBgImages = () => {
                 </div>
                 <button
                   onClick={() => setDeleteId(img._id)}
-                  className="absolute top-2 right-2 bg-red-600 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-700 shadow"
+                  className="absolute top-2 right-2 bg-red-600 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-700 shadow cursor-pointer"
                 >
                   <Trash2 size={12} />
                 </button>
@@ -286,7 +286,7 @@ const AdminBgImages = () => {
           <div className="flex rounded-xl border border-gray-200 overflow-hidden text-sm font-semibold">
             <button
               onClick={() => { setTab('file'); setPreview(''); setFile(null); }}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 transition-colors ${
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 transition-colors cursor-pointer ${
                 tab === 'file' ? 'bg-blue-800 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'
               }`}
             >
@@ -294,7 +294,7 @@ const AdminBgImages = () => {
             </button>
             <button
               onClick={() => { setTab('url'); setPreview(''); setFile(null); }}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 transition-colors ${
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 transition-colors cursor-pointer ${
                 tab === 'url' ? 'bg-blue-800 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'
               }`}
             >
@@ -311,7 +311,7 @@ const AdminBgImages = () => {
               value={form.name}
               onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
               placeholder="e.g. Rooftop Pool Sunset"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 "
             />
           </div>
 
@@ -370,14 +370,14 @@ const AdminBgImages = () => {
           <div className="flex justify-end gap-3 pt-1">
             <button
               onClick={closeAdd}
-              className="px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors"
+              className="px-4 py-2 rounded-lg text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               onClick={handleAdd}
               disabled={adding}
-              className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-blue-800 hover:bg-blue-900 text-white transition-colors disabled:opacity-60"
+              className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold bg-blue-800 hover:bg-blue-900 text-white transition-colors disabled:opacity-60 cursor-pointer"
             >
               {adding ? <Spinner size="sm" /> : <Plus size={14} />}
               {adding ? 'Uploading…' : 'Add to Library'}

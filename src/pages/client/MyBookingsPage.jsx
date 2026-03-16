@@ -19,7 +19,7 @@ const StarPicker = ({ rating, onChange }) => (
         key={s}
         type="button"
         onClick={() => onChange(s)}
-        className="focus:outline-none"
+        className="focus:outline-none cursor-pointer"
       >
         <Star
           size={28}
@@ -174,7 +174,7 @@ const MyBookingsPage = () => {
                           {booking.status === 'pending' && (
                             <button
                               onClick={() => handleCancelOpen(booking)}
-                              className="text-sm bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 px-4 py-2 rounded-lg font-medium transition-colors"
+                              className="text-sm bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer"
                             >
                               Cancel Booking
                             </button>
@@ -187,7 +187,7 @@ const MyBookingsPage = () => {
                             ) : (
                               <button
                                 onClick={() => openReviewModal(booking)}
-                                className="flex items-center gap-1.5 text-sm bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200 px-4 py-2 rounded-lg font-medium transition-colors"
+                                className="flex items-center gap-1.5 text-sm bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200 px-4 py-2 rounded-lg font-medium transition-colors cursor-pointer"
                               >
                                 <MessageSquare size={15} /> Write Review
                               </button>
@@ -212,7 +212,7 @@ const MyBookingsPage = () => {
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
                 >
                   <ChevronLeft size={16} />
                 </button>
@@ -220,7 +220,7 @@ const MyBookingsPage = () => {
                   <button
                     key={n}
                     onClick={() => setPage(n)}
-                    className={`w-9 h-9 rounded-lg text-sm font-medium transition-colors ${
+                    className={`w-9 h-9 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
                       n === page
                         ? 'bg-blue-800 text-white'
                         : 'border border-gray-200 hover:bg-gray-50 text-gray-700'
@@ -232,7 +232,7 @@ const MyBookingsPage = () => {
                 <button
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages}
-                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                  className="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
                 >
                   <ChevronRight size={16} />
                 </button>

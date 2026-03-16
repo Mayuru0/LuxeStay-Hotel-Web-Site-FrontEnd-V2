@@ -46,7 +46,7 @@ const FeaturesSection = () => {
           {features.map((feature, i) => (
             <div
               key={feature.title}
-              className={`reveal stagger-${i + 1} card-hover bg-white rounded-2xl p-7 shadow-sm text-center group cursor-default`}
+              className={`reveal stagger-${i + 1} card-hover bg-white rounded-2xl p-7 shadow-sm text-center group  cursor-pointer`}
             >
               {/* Icon bubble */}
               <div className="flex items-center justify-center w-16 h-16 bg-blue-50 rounded-xl mx-auto mb-5 group-hover:bg-blue-800 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg">

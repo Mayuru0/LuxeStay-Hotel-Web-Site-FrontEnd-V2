@@ -16,7 +16,7 @@ const RoomCard = ({ room, unavailableForDates = false, searchDates = {} }) => {
   };
 
   return (
-    <div className={`card-hover bg-white rounded-2xl shadow-md overflow-hidden flex flex-col group relative ${unavailableForDates ? 'opacity-70' : ''}`}>
+    <div className={`card-hover bg-white rounded-2xl shadow-md overflow-hidden flex flex-col group relative  ${unavailableForDates ? 'opacity-70' : ''}`}>
 
       {/* Image */}
       <div className="relative aspect-[4/3] overflow-hidden">
@@ -88,7 +88,7 @@ const RoomCard = ({ room, unavailableForDates = false, searchDates = {} }) => {
             </p>
             <button
               onClick={handleViewDetails}
-              className="w-full border border-gray-300 text-gray-500 hover:bg-gray-50 font-semibold py-2.5 rounded-xl text-sm transition-colors"
+              className="w-full border border-gray-300 text-gray-500 hover:bg-gray-50 font-semibold py-2.5 rounded-xl text-sm transition-colors cursor-pointer"
             >
               View Details
             </button>
@@ -96,7 +96,7 @@ const RoomCard = ({ room, unavailableForDates = false, searchDates = {} }) => {
         ) : (
           <button
             onClick={handleViewDetails}
-            className="btn-gradient mt-auto w-full text-white font-semibold py-2.5 rounded-xl text-sm shadow-sm"
+            className="btn-gradient mt-auto w-full text-white font-semibold py-2.5 rounded-xl text-sm shadow-sm cursor-pointer"
           >
             View Details
           </button>

@@ -5,6 +5,8 @@ import Spinner from '../../components/ui/Spinner.jsx';
 import api from '../../config/api.js';
 import { SlidersHorizontal, X } from 'lucide-react';
 
+const ROOMS_PER_PAGE = 8;
+
 const RoomsPage = () => {
   const [searchParams] = useSearchParams();
   const [rooms, setRooms] = useState([]);
@@ -13,6 +15,7 @@ const RoomsPage = () => {
   const [error, setError] = useState(null);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [heroImage, setHeroImage] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const [filters, setFilters] = useState({
     checkIn: searchParams.get('checkIn') || '',
@@ -86,14 +89,19 @@ const RoomsPage = () => {
     setFilters((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const totalPages = Math.ceil(rooms.length / ROOMS_PER_PAGE);
+  const paginatedRooms = rooms.slice((currentPage - 1) * ROOMS_PER_PAGE, currentPage * ROOMS_PER_PAGE);
+
   const handleApplyFilters = () => {
     fetchRooms(filters);
+    setCurrentPage(1);
     setFiltersOpen(false);
   };
 
   const handleResetFilters = () => {
     const reset = { checkIn: '', checkOut: '', guests: '', category: '', maxPrice: '' };
     setFilters(reset);
+    setCurrentPage(1);
     fetchRooms(reset);
   };
 
@@ -127,22 +135,22 @@ const RoomsPage = () => {
             <div className="flex flex-col gap-1 min-w-[140px]">
               <label className="text-xs font-semibold text-gray-600 uppercase">Check-In</label>
               <input type="date" name="checkIn" value={filters.checkIn} min={today} onChange={handleFilterChange}
-                className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800" />
+                className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 cursor-pointer" />
             </div>
             <div className="flex flex-col gap-1 min-w-[140px]">
               <label className="text-xs font-semibold text-gray-600 uppercase">Check-Out</label>
               <input type="date" name="checkOut" value={filters.checkOut} min={filters.checkIn || today} onChange={handleFilterChange}
-                className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800" />
+                className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 cursor-pointer" />
             </div>
             <div className="flex flex-col gap-1 min-w-[100px]">
               <label className="text-xs font-semibold text-gray-600 uppercase">Guests</label>
               <input type="number" name="guests" value={filters.guests} min={1} placeholder="1" onChange={handleFilterChange}
-                className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800" />
+                className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 cursor-pointer" />
             </div>
             <div className="flex flex-col gap-1 min-w-[140px]">
               <label className="text-xs font-semibold text-gray-600 uppercase">Category</label>
               <select name="category" value={filters.category} onChange={handleFilterChange}
-                className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800">
+                className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 cursor-pointer">
                 <option value="">All Categories</option>
                 {categories.map((c) => (
                   <option key={c._id} value={c._id}>{c.name}</option>
@@ -152,15 +160,15 @@ const RoomsPage = () => {
             <div className="flex flex-col gap-1 min-w-[120px]">
               <label className="text-xs font-semibold text-gray-600 uppercase">Max Price/Night</label>
               <input type="number" name="maxPrice" value={filters.maxPrice} placeholder="Any" min={0} onChange={handleFilterChange}
-                className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800" />
+                className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 cursor-pointer" />
             </div>
             <div className="flex gap-2 items-end">
               <button onClick={handleApplyFilters}
-                className="bg-blue-800 hover:bg-blue-900 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors">
+                className="bg-blue-800 hover:bg-blue-900 text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors cursor-pointer">
                 Search
               </button>
               <button onClick={handleResetFilters}
-                className="border border-gray-300 hover:bg-gray-50 text-gray-600 px-4 py-2 rounded-lg text-sm transition-colors">
+                className="border border-gray-300 hover:bg-gray-50 text-gray-600 px-4 py-2 rounded-lg text-sm transition-colors cursor-pointer">
                 Reset
               </button>
             </div>
@@ -198,10 +206,43 @@ const RoomsPage = () => {
               })()}
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {rooms.map((room) => (
+              {paginatedRooms.map((room) => (
                 <RoomCard key={room._id} room={room} unavailableForDates={room.unavailableForDates} searchDates={{ checkIn: filters.checkIn, checkOut: filters.checkOut }} />
               ))}
             </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center gap-2 mt-10">
+                <button
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 rounded-lg border border-gray-300 text-sm font-medium text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                >
+                  Previous
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`w-9 h-9 rounded-lg text-sm font-medium transition-colors cursor-pointer ${
+                      page === currentPage
+                        ? 'bg-blue-800 text-white'
+                        : 'border border-gray-300 text-gray-600 hover:bg-gray-50'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+                <button
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                  className="px-4 py-2 rounded-lg border border-gray-300 text-sm font-medium text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </>
         )}
       </div>
