@@ -195,7 +195,7 @@ const RoomDetailPage = () => {
   return (
     <div className="bg-gray-50">
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1 mt-10">
         {/* Back */}
         <button onClick={() => navigate('/rooms')} className="flex items-center gap-1 text-blue-800 hover:text-blue-900 text-sm font-medium mb-6">
           <ChevronLeft size={16} /> Back to Rooms

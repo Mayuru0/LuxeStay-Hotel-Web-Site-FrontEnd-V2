@@ -13,8 +13,11 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [scrolled,     setScrolled]     = useState(false);
 
-  const DARK_PAGES = ['/my-bookings', '/profile'];
-  const forceDark = DARK_PAGES.includes(pathname);
+  const forceDark =
+    pathname === '/my-bookings' ||
+    pathname === '/profile' ||
+    pathname.startsWith('/rooms/') ||
+    pathname.startsWith('/booking/');
 
   /* Scroll-aware class switching */
   useEffect(() => {
