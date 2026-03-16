@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
 import { MapPin, Phone, Mail } from 'lucide-react';
 import useScrollReveal from '../../hooks/useScrollReveal.js';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/Logo.png';
 
 const Footer = () => {
   const footerRef = useScrollReveal(0.05);
