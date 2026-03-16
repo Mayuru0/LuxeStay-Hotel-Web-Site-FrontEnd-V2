@@ -160,7 +160,7 @@ const RoomDetailPage = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-24">
+      <div className="flex items-center justify-center py-24 h-screen">
         <Spinner size="lg" />
       </div>
     );
@@ -193,7 +193,7 @@ const RoomDetailPage = () => {
   };
 
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-50 ">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1 mt-10">
         {/* Back */}
@@ -327,7 +327,7 @@ const RoomDetailPage = () => {
                   <button
                     type="submit"
                     disabled={submittingReview || reviewForm.rating === 0}
-                    className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors"
+                    className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors cursor-pointer"
                   >
                     <Send size={15} />
                     {submittingReview ? 'Submitting...' : 'Submit Review'}
@@ -392,14 +392,14 @@ const RoomDetailPage = () => {
                     <CalendarDays size={12} className="inline mr-1" />Check-In
                   </label>
                   <input type="date" value={checkIn} min={today} onChange={(e) => setCheckIn(e.target.value)}
-                    className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800" />
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 cursor-pointer" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">
                     <CalendarDays size={12} className="inline mr-1" />Check-Out
                   </label>
                   <input type="date" value={checkOut} min={checkIn || today} onChange={(e) => setCheckOut(e.target.value)}
-                    className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800" />
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-800 cursor-pointer" />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-600 uppercase mb-1">
@@ -411,14 +411,14 @@ const RoomDetailPage = () => {
                       type="button"
                       onClick={() => setGuests((g) => Math.max(1, g - 1))}
                       disabled={guests <= 1}
-                      className="px-3 py-2.5 text-gray-500 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed text-lg font-bold select-none"
+                      className="px-3 py-2.5 text-gray-500 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed text-lg font-bold select-none cursor-pointer"
                     >−</button>
                     <span className="flex-1 text-center text-sm font-semibold text-gray-900 py-2.5">{guests}</span>
                     <button
                       type="button"
                       onClick={() => setGuests((g) => Math.min(room.maxGuests, g + 1))}
                       disabled={guests >= room.maxGuests}
-                      className="px-3 py-2.5 text-gray-500 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed text-lg font-bold select-none"
+                      className="px-3 py-2.5 text-gray-500 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed text-lg font-bold select-none cursor-pointer"
                     >+</button>
                   </div>
                 </div>
@@ -460,7 +460,7 @@ const RoomDetailPage = () => {
               <button
                 onClick={handleBookNow}
                 disabled={!room.availability || dateAvailability === 'unavailable' || dateAvailability === 'checking'}
-                className="w-full mt-5 bg-blue-800 hover:bg-blue-900 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 rounded-lg transition-colors"
+                className="w-full mt-5 bg-blue-800 hover:bg-blue-900 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 rounded-lg transition-colors cursor-pointer"
               >
                 {!room.availability
                   ? 'Room Not Available'

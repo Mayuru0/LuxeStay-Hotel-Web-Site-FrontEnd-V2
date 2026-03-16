@@ -106,7 +106,7 @@ const RoomsPage = () => {
   };
 
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-50 ">
 
       {/* Hero Banner */}
       <div className="relative py-28 text-white text-center overflow-hidden bg-gray-800">

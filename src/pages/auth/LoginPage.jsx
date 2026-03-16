@@ -177,7 +177,7 @@ const LoginPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
                 >
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -207,7 +207,7 @@ const LoginPage = () => {
               </div>
             )}
 
-            <Button type="submit" loading={loading} className="w-full py-3 text-base rounded-xl">
+            <Button type="submit" loading={loading} className="w-full py-3 text-base rounded-xl cursor-pointer">
               Sign In
             </Button>
           </form>

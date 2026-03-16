@@ -287,7 +287,7 @@ const RegisterPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
                 >
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -316,19 +316,19 @@ const RegisterPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
                 >
                   {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
               {touched.confirmPassword && errors.confirmPassword && (
-                <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                <p className="text-red-500 text-xs mt-1 flex items-center gap-1 ">
                   <AlertCircle size={10} /> {errors.confirmPassword}
                 </p>
               )}
             </div>
 
-            <Button type="submit" loading={loading} className="w-full py-3 text-base rounded-xl mt-2">
+            <Button type="submit" loading={loading} className="w-full py-3 text-base rounded-xl mt-2 cursor-pointer">
               Create Account
             </Button>
           </form>
