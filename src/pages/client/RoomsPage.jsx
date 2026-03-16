@@ -61,6 +61,10 @@ const RoomsPage = () => {
       const fullUrl = params.toString() ? `${url}?${params.toString()}` : url;
       const res = await api.get(fullUrl);
       let data = res.data.data || [];
+      // When no dates given, only show available rooms to users
+      if (url === '/api/room/get') {
+        data = data.filter((r) => r.availability === true);
+      }
       if (f.maxPrice) {
         data = data.filter((r) => (r.category?.price || 0) <= Number(f.maxPrice));
       }

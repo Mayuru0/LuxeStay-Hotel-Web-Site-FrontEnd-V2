@@ -5,7 +5,7 @@ import Modal from '../../components/ui/Modal.jsx';
 import Button from '../../components/ui/Button.jsx';
 import Badge from '../../components/ui/Badge.jsx';
 import toast from 'react-hot-toast';
-import { Plus, Edit2, Trash2, Images } from 'lucide-react';
+import { Plus, Edit2, Trash2, Images, ToggleLeft, ToggleRight } from 'lucide-react';
 
 const AdminRooms = () => {
   const [rooms, setRooms] = useState([]);
@@ -15,6 +15,7 @@ const AdminRooms = () => {
   const [deleteModal, setDeleteModal] = useState({ open: false, room: null });
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [togglingId, setTogglingId] = useState(null);
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [form, setForm] = useState({ category: '', maxGuests: 2, description: '', availability: true, photos: [] });
 
@@ -112,6 +113,21 @@ const AdminRooms = () => {
     }
   };
 
+  const handleToggleStatus = async (room) => {
+    setTogglingId(room._id);
+    try {
+      const res = await api.patch(`/api/room/toggle-status/${room._id}`);
+      setRooms((prev) =>
+        prev.map((r) => r._id === room._id ? { ...r, availability: res.data.data.availability } : r)
+      );
+      toast.success(res.data.message);
+    } catch {
+      toast.error('Failed to update status');
+    } finally {
+      setTogglingId(null);
+    }
+  };
+
   const filtered = categoryFilter === 'all' ? rooms : rooms.filter((r) => {
     const catId = (r.category && typeof r.category === 'object') ? r.category._id : r.category;
     return catId === categoryFilter;
@@ -155,7 +171,21 @@ const AdminRooms = () => {
                       <td className="px-4 py-3 font-mono font-bold text-blue-800">#{room.roomID}</td>
                       <td className="px-4 py-3 text-gray-700">{cat.name || 'N/A'}</td>
                       <td className="px-4 py-3 text-gray-600">{room.maxGuests}</td>
-                      <td className="px-4 py-3"><Badge status={room.availability ? 'available' : 'occupied'} /></td>
+                      <td className="px-4 py-3">
+                        <button
+                          onClick={() => handleToggleStatus(room)}
+                          disabled={togglingId === room._id}
+                          className="flex items-center gap-2 group"
+                          title={room.availability ? 'Click to mark as Occupied' : 'Click to mark as Available'}
+                        >
+                          {room.availability ? (
+                            <ToggleRight size={22} className="text-green-500 group-hover:text-green-700 transition-colors" />
+                          ) : (
+                            <ToggleLeft size={22} className="text-gray-400 group-hover:text-gray-600 transition-colors" />
+                          )}
+                          <Badge status={room.availability ? 'available' : 'occupied'} />
+                        </button>
+                      </td>
                       <td className="px-4 py-3 flex items-center gap-1 text-gray-500">
                         <Images size={14} /> {room.photos?.length || 0}
                       </td>
