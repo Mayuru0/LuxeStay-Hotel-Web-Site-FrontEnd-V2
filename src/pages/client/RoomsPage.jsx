@@ -130,7 +130,7 @@ const RoomsPage = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full flex-1">
         {/* Filter Bar */}
-        <div className="bg-white relative rounded-xl shadow-lg border border-gray-100 p-5 mb-8 -mt-20 z-50">
+        <div className="bg-white relative rounded-xl shadow-lg border border-gray-100 p-5 mb-8 -mt-20 ">
           <div className="flex flex-wrap gap-4 items-end">
             <div className="flex flex-col gap-1 min-w-[140px]">
               <label className="text-xs font-semibold text-gray-600 uppercase">Check-In</label>
