@@ -1,11 +1,26 @@
 import { useNavigate } from 'react-router-dom';
 import useScrollReveal from '../../hooks/useScrollReveal.js';
 
-const CategoriesCarousel = ({ categories, bgImage }) => {
+const CategoryCardSkeleton = () => (
+  <div className="flex-none w-72 mx-3 bg-white rounded-2xl overflow-hidden shadow-sm">
+    <div className="aspect-[4/3] bg-gray-300 animate-pulse" />
+    <div className="p-5 flex flex-col gap-2.5">
+      <div className="h-3 bg-gray-200 rounded animate-pulse w-full" />
+      <div className="h-3 bg-gray-200 rounded animate-pulse w-3/4" />
+      <div className="flex gap-1.5 mt-1">
+        <div className="h-5 w-16 bg-gray-200 rounded-full animate-pulse" />
+        <div className="h-5 w-20 bg-gray-200 rounded-full animate-pulse" />
+        <div className="h-5 w-14 bg-gray-200 rounded-full animate-pulse" />
+      </div>
+    </div>
+  </div>
+);
+
+const CategoriesCarousel = ({ categories, bgImage, loading }) => {
   const navigate = useNavigate();
   const sectionRef = useScrollReveal(0.08);
 
-  if (categories.length === 0) return null;
+  if (!loading && categories.length === 0) return null;
 
   return (
     <section
@@ -24,6 +39,11 @@ const CategoriesCarousel = ({ categories, bgImage }) => {
 
         {/* Infinite CSS carousel */}
         <div className="overflow-hidden">
+          {loading ? (
+            <div className="flex gap-0 overflow-hidden">
+              {[...Array(4)].map((_, i) => <CategoryCardSkeleton key={i} />)}
+            </div>
+          ) : (
           <div className="carousel-track gap-6">
             {[...categories, ...categories].map((cat, idx) => (
               <div
@@ -67,6 +87,7 @@ const CategoriesCarousel = ({ categories, bgImage }) => {
               </div>
             ))}
           </div>
+          )}
         </div>
       </div>
     </section>

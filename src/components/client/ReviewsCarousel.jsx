@@ -1,28 +1,87 @@
 import { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 import StarRating from '../ui/StarRating.jsx';
-import TestimonialsSection from './TestimonialsSection.jsx';
 import useScrollReveal from '../../hooks/useScrollReveal.js';
 
-const ReviewsCarousel = ({ reviews }) => {
+const SkeletonCard = () => (
+  <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 flex flex-col gap-5 h-full">
+    <div className="flex items-start justify-between">
+      <div className="w-12 h-12 rounded-2xl bg-gray-200 animate-pulse" />
+      <div className="flex gap-1">
+        {[...Array(5)].map((_, i) => (
+          <div key={i} className="w-4 h-4 rounded bg-gray-200 animate-pulse" />
+        ))}
+      </div>
+    </div>
+    <div className="flex flex-col gap-2 flex-1">
+      <div className="h-3 bg-gray-200 rounded animate-pulse w-full" />
+      <div className="h-3 bg-gray-200 rounded animate-pulse w-5/6" />
+      <div className="h-3 bg-gray-200 rounded animate-pulse w-4/6" />
+      <div className="h-3 bg-gray-200 rounded animate-pulse w-3/4" />
+    </div>
+    <div className="h-px bg-gray-100" />
+    <div className="flex items-center gap-3">
+      <div className="w-11 h-11 rounded-full bg-gray-200 animate-pulse shrink-0" />
+      <div className="flex flex-col gap-1.5 flex-1">
+        <div className="h-3 bg-gray-200 rounded animate-pulse w-28" />
+        <div className="h-2.5 bg-gray-200 rounded animate-pulse w-20" />
+      </div>
+      <div className="h-2.5 bg-gray-200 rounded animate-pulse w-14" />
+    </div>
+  </div>
+);
+
+const ReviewsCarousel = ({ reviews, loading }) => {
   const [active, setActive] = useState(0);
-  const [animDir, setAnimDir] = useState(null); // 'left' | 'right'
   const sectionRef = useScrollReveal(0.08);
   const count = reviews.length;
 
-  const goTo = useCallback((idx, dir) => {
-    setAnimDir(dir);
+  const goTo = useCallback((idx) => {
     setActive(((idx % count) + count) % count);
   }, [count]);
 
   /* Auto-advance every 5s */
   useEffect(() => {
     if (count <= 1) return;
-    const t = setInterval(() => goTo(active + 1, 'right'), 5000);
+    const t = setInterval(() => goTo(active + 1), 5000);
     return () => clearInterval(t);
   }, [active, count, goTo]);
 
-  // if (count === 0) return <TestimonialsSection />;
+  if (loading) return (
+    <section ref={sectionRef} className="py-24 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <div className="h-3 bg-gray-200 rounded animate-pulse w-24 mx-auto mb-3" />
+          <div className="h-8 bg-gray-200 rounded animate-pulse w-64 mx-auto mb-4" />
+          <div className="w-16 h-1 bg-gray-200 rounded-full mx-auto animate-pulse" />
+        </div>
+        <div className="relative flex items-center justify-center" style={{ perspective: '1200px', minHeight: '340px' }}>
+          {/* side left */}
+          <div style={{ position: 'absolute', width: '100%', maxWidth: '480px', transform: 'translateX(-55%) scale(0.82)', opacity: 0.35 }}>
+            <SkeletonCard />
+          </div>
+          {/* center */}
+          <div style={{ position: 'absolute', width: '100%', maxWidth: '480px', zIndex: 10 }}>
+            <SkeletonCard />
+          </div>
+          {/* side right */}
+          <div style={{ position: 'absolute', width: '100%', maxWidth: '480px', transform: 'translateX(55%) scale(0.82)', opacity: 0.35 }}>
+            <SkeletonCard />
+          </div>
+        </div>
+        <div className="flex items-center justify-center gap-6 mt-14">
+          <div className="w-11 h-11 rounded-full bg-gray-200 animate-pulse" />
+          <div className="flex gap-2">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="w-2.5 h-2.5 rounded-full bg-gray-200 animate-pulse" />
+            ))}
+          </div>
+          <div className="w-11 h-11 rounded-full bg-gray-200 animate-pulse" />
+        </div>
+      </div>
+    </section>
+  );
+
   if (count === 0) return (
     <section ref={sectionRef} className="py-24 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
@@ -143,8 +202,8 @@ const ReviewsCarousel = ({ reviews }) => {
             <div
               key={idx}
               onClick={() => {
-                if (pos === 'left')  goTo(active - 1, 'left');
-                if (pos === 'right') goTo(active + 1, 'right');
+                if (pos === 'left')  goTo(active - 1);
+                if (pos === 'right') goTo(active + 1);
               }}
               style={{
                 position: 'absolute',
@@ -165,7 +224,7 @@ const ReviewsCarousel = ({ reviews }) => {
           <div className="flex items-center justify-center gap-6 mt-14">
             {/* Prev */}
             <button
-              onClick={() => goTo(active - 1, 'left')}
+              onClick={() => goTo(active - 1)}
               className="w-11 h-11 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-500 hover:text-amber-600 hover:border-amber-300 hover:shadow-amber-100/60 transition-all duration-200 hover:scale-110 cursor-pointer"
             >
               <ChevronLeft size={20} />
@@ -176,7 +235,7 @@ const ReviewsCarousel = ({ reviews }) => {
               {reviews.map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => goTo(i, i > active ? 'right' : 'left')}
+                  onClick={() => goTo(i)}
                   className={`rounded-full transition-all duration-300 cursor-pointer ${
                     i === active
                       ? 'w-8 h-2.5 bg-amber-500'
@@ -188,7 +247,7 @@ const ReviewsCarousel = ({ reviews }) => {
 
             {/* Next */}
             <button
-              onClick={() => goTo(active + 1, 'right')}
+              onClick={() => goTo(active + 1)}
               className="w-11 h-11 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-500 hover:text-amber-600 hover:border-amber-300 hover:shadow-amber-100/60 transition-all duration-200 hover:scale-110 cursor-pointer"
             >
               <ChevronRight size={20} />

@@ -58,9 +58,10 @@ const Home = () => {
       <CategoriesCarousel
         categories={categories}
         bgImage={bg('homeRooms')}
+        loading={loading}
       />
 
-      <ReviewsCarousel reviews={reviews} />
+      <ReviewsCarousel reviews={reviews} loading={loading} />
 
       <CtaBanner bgImage={bg('homeCta')} />
 

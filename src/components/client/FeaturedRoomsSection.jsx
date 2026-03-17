@@ -1,8 +1,41 @@
 import { useNavigate } from 'react-router-dom';
 import RoomCard from './RoomCard.jsx';
-import Spinner from '../ui/Spinner.jsx';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import useScrollReveal from '../../hooks/useScrollReveal.js';
+
+const RoomCardSkeleton = () => (
+  <div className="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col">
+    {/* Image area */}
+    <div className="aspect-[4/3] bg-gray-300 animate-pulse" />
+
+    <div className="p-5 flex flex-col flex-1 gap-3">
+      {/* Title + price row */}
+      <div className="flex items-start justify-between">
+        <div className="h-5 bg-gray-200 rounded animate-pulse w-32" />
+        <div className="h-5 bg-gray-200 rounded animate-pulse w-16" />
+      </div>
+
+      {/* Guests */}
+      <div className="h-4 bg-gray-200 rounded animate-pulse w-28" />
+
+      {/* Description lines */}
+      <div className="flex flex-col gap-1.5">
+        <div className="h-3 bg-gray-200 rounded animate-pulse w-full" />
+        <div className="h-3 bg-gray-200 rounded animate-pulse w-4/5" />
+      </div>
+
+      {/* Feature tags */}
+      <div className="flex gap-1.5">
+        <div className="h-5 w-16 bg-gray-200 rounded-full animate-pulse" />
+        <div className="h-5 w-20 bg-gray-200 rounded-full animate-pulse" />
+        <div className="h-5 w-14 bg-gray-200 rounded-full animate-pulse" />
+      </div>
+
+      {/* Button */}
+      <div className="h-10 bg-gray-200 rounded-xl animate-pulse mt-auto" />
+    </div>
+  </div>
+);
 
 const FeaturedRoomsSection = ({ rooms, loading, bgImage }) => {
   const navigate = useNavigate();
@@ -26,7 +59,9 @@ const FeaturedRoomsSection = ({ rooms, loading, bgImage }) => {
         </div>
 
         {loading ? (
-          <div className="flex justify-center py-12"><Spinner size="lg" /></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[...Array(3)].map((_, i) => <RoomCardSkeleton key={i} />)}
+          </div>
         ) : rooms.length === 0 ? (
           <div className="text-center py-12 text-gray-400">
             <p>No rooms available yet. Check back soon!</p>
